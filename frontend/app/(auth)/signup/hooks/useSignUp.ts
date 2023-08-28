@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { redirect } from "next/navigation";
 import { useTranslation } from "react-i18next";
 
 import { useSupabase } from "@/lib/context/SupabaseProvider";
@@ -35,6 +36,7 @@ export const useSignUp = () => {
         variant: "success",
         text: t("mailSended")
       });
+      redirect("/upload");
     }
     setIsPending(false);
   };
