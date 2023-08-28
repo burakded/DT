@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useSupabase } from "@/lib/context/SupabaseProvider";
@@ -12,6 +12,7 @@ export const useSignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isPending, setIsPending] = useState(false);
+  const [isError, setIsError] = useState(true);
   const { track } = useEventTracking();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { t } = useTranslation(["signUp"]);
@@ -38,9 +39,15 @@ export const useSignUp = () => {
         text: t("mailSended")
       });
       setIsPending(false);
-      redirect("/upload");
+      setIsError(false);
     }
   };
+
+  useEffect(() => {
+    if (!isError) {
+      redirect("/upload");
+    }
+  }, [isError]);
 
   return {
     handleSignUp,
