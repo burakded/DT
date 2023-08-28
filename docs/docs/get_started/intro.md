@@ -83,7 +83,7 @@ cp .frontend_env.example frontend/.env
 
 > _Your `JWT_SECRET_KEY`can be found in your supabase settings under Project Settings -> API -> JWT Settings -> JWT Secret_
 
-> _The `NEXT_PUBLIC_BACKEND_URL` is set to localhost:5050 for the docker. Update it if you are running the backend on a different machine._
+> _The `NEXT_PUBLIC_BACKEND_URL` is set to 147.182.142.200:5050 for the docker. Update it if you are running the backend on a different machine._
 
 > _To activate vertexAI with PaLM from GCP follow the instructions [here](https://python.langchain.com/en/latest/modules/models/llms/integrations/google_vertex_ai_palm.html) and update `backend/.env`- It is an advanced feature, please be expert in GCP before trying to use it_
 
@@ -114,7 +114,7 @@ All the scripts can be found in the [scripts](https://github.com/stangirard/quiv
 docker compose -f docker-compose.yml up --build
 ```
 
-- **Step 6**: Navigate to `localhost:3000` in your browser
+- **Step 6**: Navigate to `147.182.142.200:3000` in your browser
 
 - **Step 7**: Want to contribute to the project?
 

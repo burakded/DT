@@ -33,7 +33,7 @@ export const useMagicLinkLogin = ({
     const { error } = await supabase.auth.signInWithOtp({
       email,
       options: {
-        emailRedirectTo: window.location.hostname, // current domain name. for eg localhost:3000, localhost:3001, https://...
+        emailRedirectTo: window.location.hostname, // current domain name. for eg 147.182.142.200:3000, 147.182.142.200:3001, https://...
       },
     });
 

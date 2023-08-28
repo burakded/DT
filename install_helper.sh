@@ -83,4 +83,4 @@ echo "Launching the app..."
 docker compose -f docker-compose.yml up --build
 
 # Final message
-echo "Navigate to localhost:3000 in your browser to access the app."
+echo "Navigate to 147.182.142.200:3000 in your browser to access the app."
