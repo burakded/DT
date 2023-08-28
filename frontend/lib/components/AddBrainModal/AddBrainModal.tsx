@@ -3,7 +3,7 @@
 import { useTranslation } from "react-i18next";
 import { MdAdd } from "react-icons/md";
 
-import { PublicPrompts } from "@/app/brains-management/[brainId]/components/BrainManagementTabs/components/SettingsTab/components/PublicPrompts";
+// import { PublicPrompts } from "@/app/brains-management/[brainId]/components/BrainManagementTabs/components/SettingsTab/components/PublicPrompts";
 import Button from "@/lib/components/ui/Button";
 import Field from "@/lib/components/ui/Field";
 import { Modal } from "@/lib/components/ui/Modal";
@@ -14,7 +14,7 @@ import {
 import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
 
 import { useAddBrainModal } from "./hooks/useAddBrainModal";
-import { Divider } from "../ui/Divider";
+// import { Divider } from "../ui/Divider";
 import { TextArea } from "../ui/TextArea";
 
 export const AddBrainModal = (): JSX.Element => {
@@ -29,7 +29,7 @@ export const AddBrainModal = (): JSX.Element => {
     maxTokens,
     model,
     isPending,
-    pickPublicPrompt,
+    // pickPublicPrompt,
   } = useAddBrainModal();
 
   return (
