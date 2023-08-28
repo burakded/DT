@@ -9,5 +9,5 @@
     "login": "Already registered? Sign in",
     "googleLogin": "Login with Google",
     "errorSignUp": "Error signing up: {{errorMessage}}",
-    "mailSended": "Successfully Sign Up!"
+    "mailSended": "Successfully Signed Up!"
 }
