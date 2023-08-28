@@ -16,7 +16,7 @@ import {
 } from "@/lib/context/BrainConfigProvider/types";
 import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
 
-import { PublicPrompts } from "./components/PublicPrompts/PublicPrompts";
+// import { PublicPrompts } from "./components/PublicPrompts/PublicPrompts";
 import { useSettingsTab } from "./hooks/useSettingsTab";
 
 type SettingsTabProps = {
@@ -38,7 +38,7 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
     isDefaultBrain,
     formRef,
     promptId,
-    pickPublicPrompt,
+    // pickPublicPrompt,
     removeBrainPrompt,
   } = useSettingsTab({ brainId });
 
@@ -140,7 +140,7 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
           {...register("maxTokens")}
         />
       </fieldset>
-      <Divider text={t("customPromptSection", { ns: "config" })} />
+      {/* <Divider text={t("customPromptSection", { ns: "config" })} />
       <PublicPrompts onSelect={pickPublicPrompt} />
       <Field
         label={t("promptName", { ns: "config" })}
@@ -155,7 +155,7 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
         autoComplete="off"
         className="flex-1"
         {...register("prompt.content")}
-      />
+      /> */}
       {promptId !== "" && (
         <Button disabled={isUpdating} onClick={() => void removeBrainPrompt()}>
           {t("removePrompt", { ns: "config" })}
