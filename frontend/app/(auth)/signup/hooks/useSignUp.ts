@@ -31,14 +31,15 @@ export const useSignUp = () => {
         variant: "danger",
         text: t("errorSignUp",{ errorMessage: error.message}),
       });
+      setIsPending(false);
     } else {
       publish({
         variant: "success",
         text: t("mailSended")
       });
+      setIsPending(false);
       redirect("/upload");
     }
-    setIsPending(false);
   };
 
   return {
