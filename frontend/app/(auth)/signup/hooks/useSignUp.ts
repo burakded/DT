@@ -22,7 +22,7 @@ export const useSignUp = () => {
     const { error } = await supabase.auth.signUp({
       email: email,
       password: password,
-    }, { disableVerification: true });
+    });
 
     if (error) {
       console.error("Error signing up:", error.message);
