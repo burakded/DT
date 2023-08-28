@@ -123,8 +123,8 @@ export const AddBrainModal = (): JSX.Element => {
             {...register("maxTokens")}
           />
         </fieldset>
-        <Divider text={t("customPromptSection", { ns: "config" })} />
-        <PublicPrompts onSelect={pickPublicPrompt} />
+        {/* <Divider text={t("customPromptSection", { ns: "config" })} /> */}
+        {/* <PublicPrompts onSelect={pickPublicPrompt} />
         <Field
           label={t("promptName", { ns: "config" })}
           placeholder={t("promptNamePlaceholder", { ns: "config" })}
@@ -138,7 +138,7 @@ export const AddBrainModal = (): JSX.Element => {
           autoComplete="off"
           className="flex-1"
           {...register("prompt.content")}
-        />
+        /> */}
         <div className="flex flex-row justify-start w-full mt-4">
           <label className="flex items-center">
             <span className="mr-2 text-gray-700">
