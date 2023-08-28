@@ -7,13 +7,16 @@ from langchain.schema import Document
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 from models import File, get_documents_vector_store
+from models import Brain
 from utils.file import compute_sha1_from_content
+from utils.vectors import Neurons
 
 
 async def process_audio(
     file: File,
     enable_summarization: bool,
-    user,
+    # user,
+    brain_id,
     user_openai_api_key,
 ):
     temp_filename = None
@@ -79,6 +82,20 @@ async def process_audio(
         ]
 
         documents_vector_store.add_documents(docs_with_metadata)
+
+        ## mode 1
+        brain = Brain(id=brain_id)
+        file.link_file_to_brain(brain)
+
+        ## mode 2
+        neurons = Neurons()
+        created_vector = neurons.create_vector(docs_with_metadata, user_openai_api_key)
+        # add_usage(stats_db, "embedding", "audio", metadata={"file_name": file_meta_name,"file_type": ".txt", "chunk_size": chunk_size, "chunk_overlap": chunk_overlap})
+
+        created_vector_id = created_vector[0]  # pyright: ignore reportPrivateUsage=none
+
+        brain = Brain(id=brain_id)
+        brain.create_brain_vector(created_vector_id, file.file_sha1)
 
     finally:
         if temp_filename and os.path.exists(temp_filename):
