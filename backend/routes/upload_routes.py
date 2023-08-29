@@ -70,11 +70,13 @@ async def upload_file(
         if openai_api_key is None:
             openai_api_key = get_user_identity(current_user.id).openai_api_key
 
+        print("first check for audio and size:", file_size)
         message = await filter_file(
             file=file,
             enable_summarization=enable_summarization,
             brain_id=brain_id,
             openai_api_key=openai_api_key,
         )
+        print("second with message:", message)
 
     return message
