@@ -3,17 +3,16 @@
 
 import copy from "copy-to-clipboard";
 import { UUID } from "crypto";
-import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
-import { MdShare, MdContentPaste } from "react-icons/md";
+import { MdContentPaste, MdShare } from "react-icons/md";
 
 // import { BrainUsers } from "@/lib/components/BrainUsers/BrainUsers";
 // import { UserToInvite } from "@/lib/components/UserToInvite";
+import { useToast } from "@/lib/hooks";
 import Button from "@/lib/components/ui/Button";
 import { Modal } from "@/lib/components/ui/Modal";
 import { useShareBrain } from "@/lib/hooks/useShareBrain";
-import { useToast } from "@/lib/hooks";
 
 type ShareBrainModalProps = {
   brainId: UUID;
