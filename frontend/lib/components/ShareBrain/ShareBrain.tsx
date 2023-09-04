@@ -1,9 +1,9 @@
 /* eslint-disable max-lines */
 "use client";
 
+import copy from "copy-to-clipboard";
 import { UUID } from "crypto";
 import { useState } from "react";
-import copy from "copy-to-clipboard";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
 import { MdContentPaste, MdShare } from "react-icons/md";
