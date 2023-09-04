@@ -3,7 +3,7 @@
 
 import copy from "copy-to-clipboard";
 import { UUID } from "crypto";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
 import { MdContentPaste, MdShare } from "react-icons/md";
@@ -49,6 +49,10 @@ export const ShareBrain = ({
     setIsCopied(true);
   };
 
+  useEffect(() => {
+    setIsCopied(false);
+  }, [isShareModalOpen])
+
   return (
     <Modal
       Trigger={
@@ -82,7 +86,7 @@ export const ShareBrain = ({
                 type="button"
                 onClick={handleCopyShareLink}
               >
-                {isCopied ? 'Copied!' : <MdContentPaste />}
+                {isCopied ? 'Copied!' : 'Copy'}
               </Button>
             </div>
           </div>
