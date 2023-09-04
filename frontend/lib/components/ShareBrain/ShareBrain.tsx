@@ -3,11 +3,11 @@
 
 import { UUID } from "crypto";
 import { useTranslation } from "react-i18next";
-import { ImUserPlus } from "react-icons/im";
+// import { ImUserPlus } from "react-icons/im";
 import { MdContentPaste, MdShare } from "react-icons/md";
 
-import { BrainUsers } from "@/lib/components/BrainUsers/BrainUsers";
-import { UserToInvite } from "@/lib/components/UserToInvite";
+// import { BrainUsers } from "@/lib/components/BrainUsers/BrainUsers";
+// import { UserToInvite } from "@/lib/components/UserToInvite";
 import Button from "@/lib/components/ui/Button";
 import { Modal } from "@/lib/components/ui/Modal";
 import { useShareBrain } from "@/lib/hooks/useShareBrain";
@@ -58,7 +58,7 @@ export const ShareBrain = ({
       <form
         onSubmit={(event) => {
           event.preventDefault();
-          void inviteUsers();
+          // void inviteUsers();
         }}
       >
         <div>
@@ -78,7 +78,7 @@ export const ShareBrain = ({
 
           <div className="bg-gray-100 h-0.5 mb-5 border-gray-200 dark:border-gray-700" />
 
-          {roleAssignations.map((roleAssignation, index) => (
+          {/* {roleAssignations.map((roleAssignation, index) => (
             <UserToInvite
               key={roleAssignation.id}
               onChange={updateRoleAssignation(index)}
@@ -93,24 +93,24 @@ export const ShareBrain = ({
             data-testid="add-new-row-role-button"
           >
             <ImUserPlus />
-          </Button>
+          </Button> */}
         </div>
 
         <div className="flex flex-row justify-end mb-3">
           <Button
-            isLoading={sendingInvitation}
-            disabled={roleAssignations.length === 0}
-            type="submit"
+            // isLoading={sendingInvitation}
+            // disabled={roleAssignations.length === 0}
+            type="button"
           >
             {t("shareButton")}
           </Button>
         </div>
       </form>
-      <div className="bg-gray-100 h-0.5 mb-5 border-gray-200 dark:border-gray-700" />
+      {/* <div className="bg-gray-100 h-0.5 mb-5 border-gray-200 dark:border-gray-700" />
       <p className="text-lg font-bold">
         {t("shareBrainUsers", { ns: "brain" })}
       </p>
-      <BrainUsers brainId={brainId} />
+      <BrainUsers brainId={brainId} /> */}
     </Modal>
   );
 };
