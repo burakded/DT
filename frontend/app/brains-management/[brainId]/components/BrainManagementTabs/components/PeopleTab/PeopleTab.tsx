@@ -27,13 +27,13 @@ export const PeopleTab = ({ brainId }: ShareBrainModalProps): JSX.Element => {
     sendingInvitation,
     canAddNewRow,
     hasShareBrainRights,
-  } = useShareBrain(brainId);
+  } = useShareBrain(brainId, brainId);
 
   if (!hasShareBrainRights) {
     return (
-      <div className="flex justify-center items-center mt-5">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative max-w-md">
-          <strong className="font-bold mr-1">{t("ohno",{ns:"config"})}</strong>
+      <div className="flex items-center justify-center mt-5">
+        <div className="relative max-w-md px-4 py-3 text-red-700 bg-red-100 border border-red-400 rounded">
+          <strong className="mr-1 font-bold">{t("ohno",{ns:"config"})}</strong>
           <span className="block sm:inline">
             {t("roleRequired",{ns:"config"})}
           </span>
@@ -52,16 +52,16 @@ export const PeopleTab = ({ brainId }: ShareBrainModalProps): JSX.Element => {
         }}
       >
         <div>
-          <div className="flex flex-row align-center my-5">
+          <div className="flex flex-row my-5 align-center">
             <div
               onClick={() => void handleCopyInvitationLink()}
-              className="cursor-pointer flex bg-gray-100 p-0 flex-1 flex-row border-gray-200 dark:border-gray-700 justify-space-between align-center rounded-md border-2"
+              className="flex flex-row flex-1 p-0 bg-gray-100 border-2 border-gray-200 rounded-md cursor-pointer dark:border-gray-700 justify-space-between align-center"
             >
-              <div className="px-8 py-3 text-sm disabled:opacity-80 text-center font-medium rounded-md focus:ring ring-primary/10 outline-none flex items-center justify-center gap-2 transition-opacity bg-transparent border-2 border-gray border-l-0 border-t-0 border-b-0 rounded-l-none">
+              <div className="flex items-center justify-center gap-2 px-8 py-3 text-sm font-medium text-center transition-opacity bg-transparent border-2 border-t-0 border-b-0 border-l-0 rounded-md rounded-l-none outline-none disabled:opacity-80 focus:ring ring-primary/10 border-gray">
                 <MdLink size="20" color="gray" />
               </div>
-              <div className="flex flex-row flex-1 items-center justify-center">
-                <span className="text-sm text-gray-700 dark:text-gray-200 w-full bg-gray-50 dark:bg-gray-900 px-4 py-2">
+              <div className="flex flex-row items-center justify-center flex-1">
+                <span className="w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-200 bg-gray-50 dark:bg-gray-900">
                   {t("shareBrainLink",{ns:"brain"})}
                 </span>
               </div>
@@ -92,7 +92,7 @@ export const PeopleTab = ({ brainId }: ShareBrainModalProps): JSX.Element => {
           </Button>
         </div>
 
-        <div className="mb-3 flex flex-row justify-end">
+        <div className="flex flex-row justify-end mb-3">
           <Button
             isLoading={sendingInvitation}
             disabled={roleAssignations.length === 0}
