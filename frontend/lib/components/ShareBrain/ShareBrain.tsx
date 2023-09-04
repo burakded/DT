@@ -89,7 +89,7 @@ export const ShareBrain = ({
               </div>
               <Button
                 type="button"
-                onClick={() => handleCopyShareLink()}
+                onClick={handleCopyShareLink}
               >
                 {isCopied ? 'Copied!' : <MdContentPaste />}
               </Button>
