@@ -6,13 +6,14 @@ import { UUID } from "crypto";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
-import { MdShare } from "react-icons/md"; //MdContentPaste,
+import { MdShare, MdContentPaste } from "react-icons/md";
 
 // import { BrainUsers } from "@/lib/components/BrainUsers/BrainUsers";
 // import { UserToInvite } from "@/lib/components/UserToInvite";
 import Button from "@/lib/components/ui/Button";
 import { Modal } from "@/lib/components/ui/Modal";
 import { useShareBrain } from "@/lib/hooks/useShareBrain";
+import { useToast } from "@/lib/hooks";
 
 type ShareBrainModalProps = {
   brainId: UUID;
@@ -26,32 +27,22 @@ export const ShareBrain = ({
   userId
 }: ShareBrainModalProps): JSX.Element => {
   const {
-    // roleAssignations,
     brainShareLink,
-    // handleCopyInvitationLink,
-    // updateRoleAssignation,
-    // removeRoleAssignation,
-    // inviteUsers,
-    // addNewRoleAssignationRole,
-    // sendingInvitation,
     setIsShareModalOpen,
     isShareModalOpen,
-    // canAddNewRow,
   } = useShareBrain(brainId, userId);
+  const { publish } = useToast();
   const { t } = useTranslation(["translation", "brain"]);
-
-  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyShareLink = () => {
     // writeText function to copy or write data to clipboard
     copy(brainShareLink);
     // invoked if the data is copied
-    setIsCopied(true);
+    publish({
+      text: "Copied to clipboard",
+      variant: "success",
+    });
   };
-
-  useEffect(() => {
-    setIsCopied(false);
-  }, [isShareModalOpen])
 
   return (
     <Modal
@@ -86,7 +77,7 @@ export const ShareBrain = ({
                 type="button"
                 onClick={handleCopyShareLink}
               >
-                {isCopied ? 'Copied!' : 'Copy'}
+                <MdContentPaste />
               </Button>
             </div>
           </div>
