@@ -12,14 +12,14 @@ import { AddBrainModal } from "../../../../../AddBrainModal/AddBrainModal";
 
 export const BrainsDropDown = (): JSX.Element => {
   const [searchQuery, setSearchQuery] = useState("");
-  const { allBrains, isFetchingBrains, setActiveBrain, currentBrain } =
+  const { allBrains, userId, isFetchingBrains, setActiveBrain, currentBrain } =
     useBrainContext();
   const { t } = useTranslation(['translation','brain']);
 
   return (
     <>
       {/* Add the brain icon and dropdown */}
-      <div className="relative ml-auto px-4 py-2">
+      <div className="relative px-4 py-2 ml-auto">
         <Popover
           Trigger={
             <button
@@ -41,7 +41,7 @@ export const BrainsDropDown = (): JSX.Element => {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
-            <div className="overflow-auto scrollbar flex flex-col h-48 mt-5">
+            <div className="flex flex-col h-48 mt-5 overflow-auto scrollbar">
               {/* List of brains */}
               {isFetchingBrains && (
                 <div className="flex items-center justify-center h-full">
@@ -53,7 +53,7 @@ export const BrainsDropDown = (): JSX.Element => {
                   return (
                     <div
                       key={brain.id}
-                      className="relative flex group items-center"
+                      className="relative flex items-center group"
                     >
                       <button
                         type="button"
@@ -75,7 +75,7 @@ export const BrainsDropDown = (): JSX.Element => {
                         </span>
                         <span className="flex-1">{brain.name}</span>
                       </button>
-                      <BrainActions brain={brain} />
+                      <BrainActions brain={brain} userId={userId} />
                     </div>
                   );
                 }
