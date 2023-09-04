@@ -3,10 +3,10 @@ import { ReactNode } from "react";
 
 import { ChatProvider } from "@/lib/context";
 import { ChatsProvider } from "@/lib/context/ChatsProvider/chats-provider";
-import { useSupabase } from "@/lib/context/SupabaseProvider";
-import { redirectToLogin } from "@/lib/router/redirectToLogin";
+// import { useSupabase } from "@/lib/context/SupabaseProvider";
+// import { redirectToLogin } from "@/lib/router/redirectToLogin";
 
-import { ChatsList } from "./components/ChatsList";
+// import { ChatsList } from "./components/ChatsList";
 
 interface LayoutProps {
   children?: ReactNode;

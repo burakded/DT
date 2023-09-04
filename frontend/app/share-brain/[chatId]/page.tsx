@@ -1,6 +1,7 @@
 "use client";
 
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation';
+
 import { ActionsBar } from "./components/ActionsBar";
 import { ChatHeader } from "./components/ChatHeader";
 import { ChatDialog } from "./components/Dialog";
