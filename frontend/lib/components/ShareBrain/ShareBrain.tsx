@@ -35,7 +35,7 @@ export const ShareBrain = ({
     setIsShareModalOpen,
     isShareModalOpen,
     canAddNewRow,
-  } = useShareBrain(brainId);
+  } = useShareBrain(brainId, userId);
   const { t } = useTranslation(["translation", "brain"]);
 
   return (
