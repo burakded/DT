@@ -3,10 +3,10 @@
 
 import copy from "copy-to-clipboard";
 import { UUID } from "crypto";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
-import { MdContentPaste, MdShare } from "react-icons/md";
+import { MdShare } from "react-icons/md"; //MdContentPaste,
 
 // import { BrainUsers } from "@/lib/components/BrainUsers/BrainUsers";
 // import { UserToInvite } from "@/lib/components/UserToInvite";
