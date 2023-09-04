@@ -2,6 +2,7 @@
 "use client";
 
 import { UUID } from "crypto";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
 import { MdContentPaste, MdShare } from "react-icons/md";
@@ -26,7 +27,7 @@ export const ShareBrain = ({
   const {
     // roleAssignations,
     brainShareLink,
-    handleCopyInvitationLink,
+    // handleCopyInvitationLink,
     // updateRoleAssignation,
     // removeRoleAssignation,
     // inviteUsers,
@@ -37,6 +38,14 @@ export const ShareBrain = ({
     // canAddNewRow,
   } = useShareBrain(brainId, userId);
   const { t } = useTranslation(["translation", "brain"]);
+
+  const [isCopied, setIsCopied] = useState(false);
+  
+  const handleCopyShareLink = () => {
+    navigator.clipboard.writeText(brainShareLink)
+      .then(() => setIsCopied(true))
+      .catch((error) => console.log(error));
+  };
 
   return (
     <Modal
@@ -69,13 +78,13 @@ export const ShareBrain = ({
               </div>
               <Button
                 type="button"
-                onClick={() => void handleCopyInvitationLink()}
+                onClick={() => handleCopyShareLink()}
               >
-                <MdContentPaste />
+                {isCopied ? 'Copied!' : <MdContentPaste />}
               </Button>
             </div>
           </div>
-
+          <p>Please share this link with others so that they can also use this brain.</p>
           <div className="bg-gray-100 h-0.5 mb-5 border-gray-200 dark:border-gray-700" />
 
           {/* {roleAssignations.map((roleAssignation, index) => (
@@ -100,6 +109,7 @@ export const ShareBrain = ({
           <Button
             // isLoading={sendingInvitation}
             // disabled={roleAssignations.length === 0}
+            onClick={() => setIsShareModalOpen(false)}
             type="button"
           >
             {t("shareButton")}
