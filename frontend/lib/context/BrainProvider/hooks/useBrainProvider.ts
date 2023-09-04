@@ -110,6 +110,7 @@ export const useBrainProvider = () => {
     currentBrain,
     currentBrainId,
     allBrains,
+    userId,
     createBrain: createBrainHandler,
     deleteBrain: deleteBrainHandler,
     setActiveBrain,
