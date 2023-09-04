@@ -40,11 +40,22 @@ export const ShareBrain = ({
   const { t } = useTranslation(["translation", "brain"]);
 
   const [isCopied, setIsCopied] = useState(false);
-  
+
   const handleCopyShareLink = () => {
-    navigator.clipboard.writeText(brainShareLink)
-      .then(() => setIsCopied(true))
-      .catch((error) => console.log(error));
+    // navigator.clipboard.writeText(brainShareLink)
+    //   .then(() => setIsCopied(true))
+    //   .catch((error) => console.log(error));
+    // writeText function to copy or write data to clipboard
+    navigator.clipboard.writeText(brainShareLink).then(
+      () => {
+        // invoked if the data is copied
+        setIsCopied(true);
+      },
+      () => {
+        // handle data copy error
+        alert("Copying failed")
+      }
+    )
   };
 
   return (
@@ -84,7 +95,7 @@ export const ShareBrain = ({
               </Button>
             </div>
           </div>
-          <p>Please share this link with others so that they can also use this brain.</p>
+          <p className="pb-[25px]">Please share this link with others so that they can also use this brain.</p>
           <div className="bg-gray-100 h-0.5 mb-5 border-gray-200 dark:border-gray-700" />
 
           {/* {roleAssignations.map((roleAssignation, index) => (
@@ -112,7 +123,7 @@ export const ShareBrain = ({
             onClick={() => setIsShareModalOpen(false)}
             type="button"
           >
-            {t("shareButton")}
+            OK
           </Button>
         </div>
       </form>
