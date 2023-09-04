@@ -24,17 +24,17 @@ export const ShareBrain = ({
   userId
 }: ShareBrainModalProps): JSX.Element => {
   const {
-    roleAssignations,
+    // roleAssignations,
     brainShareLink,
     handleCopyInvitationLink,
-    updateRoleAssignation,
-    removeRoleAssignation,
-    inviteUsers,
-    addNewRoleAssignationRole,
-    sendingInvitation,
+    // updateRoleAssignation,
+    // removeRoleAssignation,
+    // inviteUsers,
+    // addNewRoleAssignationRole,
+    // sendingInvitation,
     setIsShareModalOpen,
     isShareModalOpen,
-    canAddNewRow,
+    // canAddNewRow,
   } = useShareBrain(brainId, userId);
   const { t } = useTranslation(["translation", "brain"]);
 
