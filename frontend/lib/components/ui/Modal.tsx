@@ -44,7 +44,8 @@ export const Modal = ({
           <Dialog.Portal forceMount>
             <Dialog.Overlay asChild forceMount>
               <motion.div
-                className="z-50 md:z-40 py-20 fixed inset-0 flex justify-center overflow-auto cursor-pointer bg-black/50 backdrop-blur-sm"
+                // className="fixed inset-0 z-50 flex justify-center py-20 overflow-auto cursor-pointer md:z-40 bg-black/50 backdrop-blur-sm"
+                className="fixed inset-0 z-50 flex justify-center py-20 overflow-auto cursor-pointer md:z-40 bg-black/50"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -81,7 +82,7 @@ export const Modal = ({
                     </Dialog.Close>
                     <Dialog.Close asChild>
                       <button
-                        className="absolute top-0 p-5 right-0 inline-flex appearance-none items-center justify-center rounded-full focus:shadow-sm focus:outline-none"
+                        className="absolute top-0 right-0 inline-flex items-center justify-center p-5 rounded-full appearance-none focus:shadow-sm focus:outline-none"
                         aria-label="Close"
                       >
                         <MdClose />
