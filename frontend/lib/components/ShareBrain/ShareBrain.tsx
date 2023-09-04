@@ -3,9 +3,10 @@
 
 import copy from "copy-to-clipboard";
 import { UUID } from "crypto";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
-import { MdContentPaste, MdShare } from "react-icons/md";
+import { MdContentCopy, MdContentPaste, MdShare } from "react-icons/md";
 
 // import { BrainUsers } from "@/lib/components/BrainUsers/BrainUsers";
 // import { UserToInvite } from "@/lib/components/UserToInvite";
@@ -32,16 +33,22 @@ export const ShareBrain = ({
   } = useShareBrain(brainId, userId);
   const { publish } = useToast();
   const { t } = useTranslation(["translation", "brain"]);
+  const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyShareLink = () => {
     // writeText function to copy or write data to clipboard
     copy(brainShareLink);
     // invoked if the data is copied
+    setIsCopied(true);
     publish({
       text: "Copied to clipboard",
       variant: "success",
     });
   };
+
+  useEffect(() => {
+    setIsCopied(false);
+  }, [isShareModalOpen])
 
   return (
     <Modal
@@ -76,7 +83,7 @@ export const ShareBrain = ({
                 type="button"
                 onClick={handleCopyShareLink}
               >
-                <MdContentPaste />
+                {isCopied ? <MdContentCopy /> : <MdContentPaste />}
               </Button>
             </div>
           </div>
