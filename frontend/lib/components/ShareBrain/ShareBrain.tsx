@@ -9,9 +9,9 @@ import { MdContentPaste, MdShare } from "react-icons/md";
 
 // import { BrainUsers } from "@/lib/components/BrainUsers/BrainUsers";
 // import { UserToInvite } from "@/lib/components/UserToInvite";
-import { useToast } from "@/lib/hooks";
 import Button from "@/lib/components/ui/Button";
 import { Modal } from "@/lib/components/ui/Modal";
+import { useToast } from "@/lib/hooks";
 import { useShareBrain } from "@/lib/hooks/useShareBrain";
 
 type ShareBrainModalProps = {
