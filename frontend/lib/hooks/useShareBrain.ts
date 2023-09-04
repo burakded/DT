@@ -17,7 +17,7 @@ import { useBrainContext } from "../context/BrainProvider/hooks/useBrainContext"
 const requiredAccessToShareBrain: BrainRoleType[] = ["Owner", "Editor"];
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const useShareBrain = (brainId: string) => {
+export const useShareBrain = (brainId: string, userId: string) => {
   const [sendingInvitation, setSendingInvitation] = useState(false);
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const [roleAssignations, setRoleAssignation] = useState<
@@ -26,7 +26,8 @@ export const useShareBrain = (brainId: string) => {
   const { t } = useTranslation(["brain"]);
 
   const baseUrl = window.location.origin;
-  const brainShareLink = `${baseUrl}/invitation/${brainId}`;
+  // const brainShareLink = `${baseUrl}/invitation/${brainId}`;
+  const brainShareLink = `${baseUrl}/share-brain?brainId=${brainId}&userId=${userId}`;
 
   const { publish } = useToast();
   const { addBrainSubscriptions } = useBrainApi();

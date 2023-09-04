@@ -6,6 +6,7 @@ import {
   BackendMinimalBrainForUser,
   Brain,
   MinimalBrainForUser,
+  MinimalBrainWithShareForUser,
 } from "@/lib/context/BrainProvider/types";
 import { Document } from "@/lib/types/Document";
 
@@ -71,14 +72,14 @@ export const getDefaultBrain = async (
 
 export const getBrains = async (
   axiosInstance: AxiosInstance
-): Promise<MinimalBrainForUser[]> => {
-  const { brains } = (
-    await axiosInstance.get<{ brains: BackendMinimalBrainForUser[] }>(
+): Promise<MinimalBrainWithShareForUser> => {
+  const { brains, userId } = (
+    await axiosInstance.get<{ brains: BackendMinimalBrainForUser[], userId: string }>(
       `/brains/`
     )
   ).data;
 
-  return brains.map(mapBackendMinimalBrainToMinimalBrain);
+  return { brains: brains.map(mapBackendMinimalBrainToMinimalBrain), userId};
 };
 
 export type Subscription = { email: string; role: BrainRoleType };

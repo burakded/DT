@@ -40,7 +40,8 @@ async def brain_endpoint(current_user: UserIdentity = Depends(get_current_user))
     containing the brain ID and brain name for each brain.
     """
     brains = get_user_brains(current_user.id)
-    return {"brains": brains}
+    return {"brains": brains, "userId": current_user.id}
+    # return {"brains": brains}
 
 
 # get default brain

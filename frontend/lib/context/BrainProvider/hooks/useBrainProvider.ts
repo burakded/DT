@@ -26,6 +26,7 @@ export const useBrainProvider = () => {
   const [currentBrainId, setCurrentBrainId] = useState<null | UUID>(null);
   const [defaultBrainId, setDefaultBrainId] = useState<UUID>();
   const [isFetchingBrains, setIsFetchingBrains] = useState(false);
+  const [userId, setUserId] = useState("");
 
   const currentBrain = allBrains.find((brain) => brain.id === currentBrainId);
   const createBrainHandler = async (
@@ -59,8 +60,9 @@ export const useBrainProvider = () => {
   const fetchAllBrains = useCallback(async () => {
     setIsFetchingBrains(true);
     try {
-      const brains = await getBrains();
+      const { brains, userId } = await getBrains();
       setAllBrains(brains);
+      setUserId(userId);
     } catch (error) {
       console.error(error);
     } finally {

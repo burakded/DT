@@ -77,6 +77,7 @@ def invite_users_to_brain(
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Error inviting user: {e}")
 
+    # return {"message": f"http://147.182.142.200:3000/share-brain?brainId={brain_id}&userId={current_user.id}"}
     return {"message": "Invitations sent successfully"}
 
 

@@ -20,12 +20,15 @@ export const App = ({ children }: PropsWithChildren): JSX.Element => {
     void fetchAndSetActiveBrain();
   }, [session?.user]);
 
+  // Condition to render NavBar & Footer
+  const renderNavBarFooter = location.pathname !== "/share-brain";
+
   return (
     <>
       <TrackingWrapper />
-      <NavBar />
+      {renderNavBarFooter && <NavBar />}
       <div className="flex-1">{children}</div>
-      <Footer />
+      {renderNavBarFooter && <Footer />}
       <UpdateMetadata />
     </>
   );

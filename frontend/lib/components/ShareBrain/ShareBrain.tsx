@@ -15,11 +15,13 @@ import { useShareBrain } from "@/lib/hooks/useShareBrain";
 type ShareBrainModalProps = {
   brainId: UUID;
   name: string;
+  userId: string;
 };
 
 export const ShareBrain = ({
   brainId,
   name,
+  userId
 }: ShareBrainModalProps): JSX.Element => {
   const {
     roleAssignations,
@@ -60,8 +62,8 @@ export const ShareBrain = ({
         }}
       >
         <div>
-          <div className="flex flex-row align-center my-5">
-            <div className="flex bg-gray-100 p-3 rounded flex-1 flex-row border-b border-gray-200 dark:border-gray-700 justify-space-between align-center">
+          <div className="flex flex-row my-5 align-center">
+            <div className="flex flex-row flex-1 p-3 bg-gray-100 border-b border-gray-200 rounded dark:border-gray-700 justify-space-between align-center">
               <div className="flex flex-1 overflow-hidden">
                 <p className="flex-1 color-gray-500">{brainShareLink}</p>
               </div>
@@ -94,7 +96,7 @@ export const ShareBrain = ({
           </Button>
         </div>
 
-        <div className="mb-3 flex flex-row justify-end">
+        <div className="flex flex-row justify-end mb-3">
           <Button
             isLoading={sendingInvitation}
             disabled={roleAssignations.length === 0}
