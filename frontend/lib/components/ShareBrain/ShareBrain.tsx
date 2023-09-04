@@ -3,6 +3,7 @@
 
 import { UUID } from "crypto";
 import { useState } from "react";
+import copy from "copy-to-clipboard";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
 import { MdContentPaste, MdShare } from "react-icons/md";
@@ -42,19 +43,10 @@ export const ShareBrain = ({
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyShareLink = () => {
-    alert("copying!")
     // writeText function to copy or write data to clipboard
-    navigator.clipboard.writeText(brainShareLink).then(
-      () => {
-        // invoked if the data is copied
-        alert("copied")
-        setIsCopied(true);
-      },
-      () => {
-        // handle data copy error
-        alert("Copying failed")
-      }
-    )
+    copy(brainShareLink);
+    // invoked if the data is copied
+    setIsCopied(true);
   };
 
   return (
