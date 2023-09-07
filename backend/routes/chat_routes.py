@@ -351,8 +351,7 @@ async def create_stream_question_handler(
     "/chat/{chat_id}/question/stream/share-brain",
     tags=["Chat"],
 )
-async def create_stream_question_handler(
-    request: Request,
+async def create_stream_share_question_handler(
     chat_with_shared_brain_question: ChatWithSharedBrainQuestion,
     chat_id: UUID,
     user_id: UUID,
