@@ -361,7 +361,9 @@ async def create_stream_question_handler(
     | None = Query(..., description="The ID of the brain"),
 ) -> StreamingResponse:
     # TODO: check if the user has access to the brain
-
+    print(f"share-stream=========================================================================================")
+    print(f"share-stream=1 {chat_id}, {user_id}, {brain_id}")
+    print(f"share-stream=2{chat_with_shared_brain_question}")
     current_user = get_user_identity(user_id)
     # Create a new instance of ChatQuestion
     chat_question = ChatQuestion(
@@ -398,7 +400,7 @@ async def create_stream_question_handler(
         chat_question.model = brain.model or "gpt-3.5-turbo"
         chat_question.temperature = brain.temperature or 0
         chat_question.max_tokens = brain.max_tokens or 256
-
+    print(chat_question)
     try:
         logger.info(f"Streaming request for {chat_question.model}")
         check_user_requests_limit(current_user)
