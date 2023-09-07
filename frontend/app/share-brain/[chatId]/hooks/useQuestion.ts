@@ -38,10 +38,11 @@ export const useQuestion = (): UseChatService => {
         .trim()
         .split("data: ")
         .filter(Boolean);
-
+      console.log("data strings", dataStrings)
       dataStrings.forEach((data) => {
         try {
           const parsedData = JSON.parse(data) as ChatHistory;
+          console.log("data parsedData", parsedData)
           updateStreamingHistory(parsedData);
         } catch (error) {
           console.error(t("errorParsingData", { ns: "chat" }), error);
