@@ -14,6 +14,7 @@ from models import (
     BrainEntity,
     Chat,
     ChatQuestion,
+    ChatWithSharedBrainQuestion,
     UserIdentity,
     UserUsage,
     get_supabase_db,
@@ -347,28 +348,34 @@ async def create_stream_question_handler(
 ##################
 # stream new question response from chat
 @chat_router.post(
-    "/chat/{chat_id}/question/stream",
-    dependencies=[
-        Depends(
-            AuthBearer(),
-        ),
-    ],
+    "/chat/{chat_id}/question/stream/share-brain",
     tags=["Chat"],
 )
 async def create_stream_question_handler(
     request: Request,
-    chat_question: ChatQuestion,
+    chat_with_shared_brain_question: ChatWithSharedBrainQuestion,
     chat_id: UUID,
+    user_id: UUID,
     brain_id: NullableUUID
     | UUID
     | None = Query(..., description="The ID of the brain"),
-    current_user: UserIdentity = Depends(get_current_user),
 ) -> StreamingResponse:
     # TODO: check if the user has access to the brain
 
+    current_user = get_user_identity(user_id)
+    # Create a new instance of ChatQuestion
+    chat_question = ChatQuestion(
+        question=chat_with_shared_brain_question.question,
+        model="GPT-3",
+        temperature=0.8,
+        max_tokens=100,
+        brain_id=UUID("00000000-0000-0000-0000-000000000000"),
+        prompt_id=chat_with_shared_brain_question.prompt_id
+    )
+    
     # Retrieve user's OpenAI API key
-    current_user.openai_api_key = request.headers.get("Openai-Api-Key")
     brain = Brain(id=brain_id)
+    current_user.openai_api_key = brain.openai_api_key
     brain_details: BrainEntity | None = None
     if not current_user.openai_api_key and brain_id:
         brain_details = get_brain_details(brain_id)
@@ -383,14 +390,14 @@ async def create_stream_question_handler(
 
     # Retrieve chat model (temperature, max_tokens, model)
     if (
-        not chat_question.model
-        or chat_question.temperature is None
-        or not chat_question.max_tokens
+        not brain.model
+        or brain.temperature is None
+        or not brain.max_tokens
     ):
         # TODO: create ChatConfig class (pick config from brain or user or chat) and use it here
-        chat_question.model = chat_question.model or brain.model or "gpt-3.5-turbo"
-        chat_question.temperature = chat_question.temperature or brain.temperature or 0
-        chat_question.max_tokens = chat_question.max_tokens or brain.max_tokens or 256
+        chat_question.model = brain.model or "gpt-3.5-turbo"
+        chat_question.temperature = brain.temperature or 0
+        chat_question.max_tokens = brain.max_tokens or 256
 
     try:
         logger.info(f"Streaming request for {chat_question.model}")

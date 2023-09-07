@@ -12,7 +12,7 @@ import { useToast } from "@/lib/hooks";
 import { useEventTracking } from "@/services/analytics/useEventTracking";
 
 import { useQuestion } from "./useQuestion";
-import { ChatQuestion } from "../types";
+import { ChatWithSharedBrainQuestion } from "../types";
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useChat = () => {
@@ -24,14 +24,13 @@ export const useChat = () => {
   const [generatingAnswer, setGeneratingAnswer] = useState(false);
 
   const { history } = useChatContext();
-  const { currentBrain } = useBrainContext();
   const { publish } = useToast();
   const { createChatWithSharedBrain } = useChatApi();
 
   const { addStreamQuestion } = useQuestion();
   const { t } = useTranslation(["chat"]);
 
-  const addQuestion = async (question: string, userId: string, callback?: () => void) => {
+  const addQuestion = async (question: string, userId: string, brainId: string, callback?: () => void) => {
     if (question === "") {
       publish({
         variant: "danger",
@@ -56,17 +55,17 @@ export const useChat = () => {
       }
 
       void track("QUESTION_ASKED");
-      const chatConfig = getChatConfigFromLocalStorage(currentChatId);
+      // const chatConfig = getChatConfigFromLocalStorage(currentChatId);
 
-      const chatQuestion: ChatQuestion = {
-        model: chatConfig?.model,
+      const chatQuestion: ChatWithSharedBrainQuestion = {
+        // model: chatConfig?.model,
         question,
-        temperature: chatConfig?.temperature,
-        max_tokens: chatConfig?.maxTokens,
-        brain_id: currentBrain?.id,
+        // temperature: chatConfig?.temperature,
+        // max_tokens: chatConfig?.maxTokens,
+        brain_id: brainId,
       };
 
-      await addStreamQuestion(currentChatId, chatQuestion);
+      await addStreamQuestion(currentChatId, userId, brainId, chatQuestion);
 
       callback?.();
     } catch (error) {

@@ -23,7 +23,7 @@ const SelectedChatPage = (): JSX.Element => {
           <div className="flex flex-col flex-1 overflow-hidden">
             <ChatDialog />
           </div>
-          <ActionsBar userId={userId} />
+          <ActionsBar userId={userId}  brainId={brainId}/>
         </div>
       </section>
     </main>

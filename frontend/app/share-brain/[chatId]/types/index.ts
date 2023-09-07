@@ -8,6 +8,14 @@ export type ChatQuestion = {
   brain_id?: string;
   prompt_id?: string;
 };
+
+export type ChatWithSharedBrainQuestion = {
+  question?: string;
+  brain_id?: string;
+  prompt_id?: string;
+};
+
+
 export type ChatHistory = {
   chat_id: string;
   message_id: string;

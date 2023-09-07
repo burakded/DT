@@ -2,7 +2,7 @@ from .brain_entity import BrainEntity, MinimalBrainEntity
 from .brains import Brain
 from .brains_subscription_invitations import BrainSubscription
 from .chat import Chat, ChatHistory
-from .chats import ChatMessage, ChatQuestion
+from .chats import ChatMessage, ChatQuestion, ChatWithSharedBrainQuestion
 from .files import File
 from .prompt import Prompt, PromptStatusEnum
 from .settings import (BrainRateLimiting, BrainSettings, LLMSettings,

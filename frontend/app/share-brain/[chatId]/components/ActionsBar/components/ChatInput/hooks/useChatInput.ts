@@ -6,11 +6,12 @@ import { useChat } from "@/app/share-brain/[chatId]/hooks/useChat";
 export const useChatInput = () => {
   const [message, setMessage] = useState<string>("");
   const [userId, setUserId] = useState<string>("");
+  const [brainId, setBrainId] = useState<string>("");
   const { addQuestion, generatingAnswer, chatId } = useChat();
 
   const submitQuestion = () => {
     if (!generatingAnswer) {
-      void addQuestion(message, userId, () => setMessage(""));
+      void addQuestion(message, userId, brainId, () => setMessage(""));
     }
   };
 
@@ -18,6 +19,7 @@ export const useChatInput = () => {
     message,
     setMessage,
     setUserId,
+    setBrainId,
     submitQuestion,
     generatingAnswer,
     chatId,

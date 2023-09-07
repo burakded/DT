@@ -23,3 +23,9 @@ class ChatQuestion(BaseModel):
     max_tokens: Optional[int]
     brain_id: Optional[UUID]
     prompt_id: Optional[UUID]
+
+class ChatWithSharedBrainQuestion(BaseModel):
+    question: str
+    brain_id: Optional[UUID]
+    prompt_id: Optional[UUID]
+
