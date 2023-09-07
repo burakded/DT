@@ -60,25 +60,31 @@ export const useQuestion = (): UseChatService => {
     brainId: string,
     chatQuestion: ChatWithSharedBrainQuestion
   ): Promise<void> => {
-    const headers = {
-      "Content-Type": "application/json",
-      Accept: "text/event-stream",
-    };
+    // const headers = {
+    //   "Content-Type": "application/json",
+    //   Accept: "text/event-stream",
+    // };
     const body = JSON.stringify(chatQuestion);
     console.log("Calling API...");
     try {
-      const response = await axios.post(
+      const response = await fetch(
         `http://147.182.142.200:5050/chat/${chatId}/question/stream/share-brain?brain_id=${brainId}&user_id=${userId}`,
-        body,
-        { headers }
+        {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "text/event-stream",
+          },
+        }
       );
 
-      if (response.data === null) {
+      if (response.body === null) {
         throw new Error(t("resposeBodyNull", { ns: "chat" }));
       }
 
       console.log("receivedResponse=================================================", response);
-      // await handleStream(response.data.getReader());
+      await handleStream(response.body.getReader());
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       // const reader: ReadableStreamDefaultReader<Uint8Array> = response.data.getReader();
       // await handleStream(reader);
