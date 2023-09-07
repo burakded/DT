@@ -370,7 +370,7 @@ async def create_stream_share_question_handler(
         model="GPT-3",
         temperature=0.8,
         max_tokens=100,
-        brain_id=UUID("00000000-0000-0000-0000-000000000000"),
+        brain_id= brain_id,
         prompt_id=chat_with_shared_brain_question.prompt_id
     )
     
