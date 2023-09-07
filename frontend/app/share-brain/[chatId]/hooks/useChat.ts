@@ -4,9 +4,9 @@ import { useParams } from "next/navigation";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { getChatConfigFromLocalStorage } from "@/lib/api/chat/chat.local";
+// import { getChatConfigFromLocalStorage } from "@/lib/api/chat/chat.local";
 import { useChatApi } from "@/lib/api/chat/useChatApi";
-import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
+// import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
 import { useChatContext } from "@/lib/context/ChatProvider/hooks/useChatContext";
 import { useToast } from "@/lib/hooks";
 import { useEventTracking } from "@/services/analytics/useEventTracking";
