@@ -60,10 +60,6 @@ export const useQuestion = (): UseChatService => {
     brainId: string,
     chatQuestion: ChatWithSharedBrainQuestion
   ): Promise<void> => {
-    // const headers = {
-    //   "Content-Type": "application/json",
-    //   Accept: "text/event-stream",
-    // };
     const body = JSON.stringify(chatQuestion);
     console.log("Calling API...");
     try {
@@ -82,12 +78,8 @@ export const useQuestion = (): UseChatService => {
       if (response.body === null) {
         throw new Error(t("resposeBodyNull", { ns: "chat" }));
       }
-
       console.log("receivedResponse=================================================", response);
       await handleStream(response.body.getReader());
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      // const reader: ReadableStreamDefaultReader<Uint8Array> = response.data.getReader();
-      // await handleStream(reader);
     } catch (error) {
       if (axios.isAxiosError(error) && error.response?.status === 429) {
         publish({
