@@ -140,7 +140,7 @@ async def update_chat_metadata_handler(
     return update_chat(chat_id=chat_id, chat_data=chat_data)
 
 
-# create new chat
+143 
 @chat_router.post("/chat", dependencies=[Depends(AuthBearer())], tags=["Chat"])
 async def create_chat_handler(
     chat_data: CreateChatProperties,
@@ -232,6 +232,106 @@ async def create_question_handler(
         raise e
 
 
+# stream new question response from chat
+@chat_router.post(
+    "/chat/{chat_id}/question/stream",
+    dependencies=[
+        Depends(
+            AuthBearer(),
+        ),
+    ],
+    tags=["Chat"],
+)
+async def create_stream_question_handler(
+    request: Request,
+    chat_question: ChatQuestion,
+    chat_id: UUID,
+    brain_id: NullableUUID
+    | UUID
+    | None = Query(..., description="The ID of the brain"),
+    current_user: UserIdentity = Depends(get_current_user),
+) -> StreamingResponse:
+    # TODO: check if the user has access to the brain
+
+    # Retrieve user's OpenAI API key
+    current_user.openai_api_key = request.headers.get("Openai-Api-Key")
+    brain = Brain(id=brain_id)
+    brain_details: BrainEntity | None = None
+    if not current_user.openai_api_key and brain_id:
+        brain_details = get_brain_details(brain_id)
+        if brain_details:
+            current_user.openai_api_key = brain_details.openai_api_key
+
+    if not current_user.openai_api_key:
+        user_identity = get_user_identity(current_user.id)
+
+        if user_identity is not None:
+            current_user.openai_api_key = user_identity.openai_api_key
+
+    # Retrieve chat model (temperature, max_tokens, model)
+    if (
+        not chat_question.model
+        or chat_question.temperature is None
+        or not chat_question.max_tokens
+    ):
+        # TODO: create ChatConfig class (pick config from brain or user or chat) and use it here
+        chat_question.model = chat_question.model or brain.model or "gpt-3.5-turbo"
+        chat_question.temperature = chat_question.temperature or brain.temperature or 0
+        chat_question.max_tokens = chat_question.max_tokens or brain.max_tokens or 256
+
+    try:
+        logger.info(f"Streaming request for {chat_question.model}")
+        check_user_requests_limit(current_user)
+        gpt_answer_generator: HeadlessQA | OpenAIBrainPicking
+        if brain_id:
+            gpt_answer_generator = OpenAIBrainPicking(
+                chat_id=str(chat_id),
+                model=(brain_details or chat_question).model
+                if current_user.openai_api_key
+                else "gpt-3.5-turbo",
+                max_tokens=(brain_details or chat_question).max_tokens
+                if current_user.openai_api_key
+                else 0,
+                temperature=(brain_details or chat_question).temperature
+                if current_user.openai_api_key
+                else 256,
+                brain_id=str(brain_id),
+                user_openai_api_key=current_user.openai_api_key,  # pyright: ignore reportPrivateUsage=none
+                streaming=True,
+                prompt_id=chat_question.prompt_id,
+            )
+        else:
+            gpt_answer_generator = HeadlessQA(
+                model=chat_question.model
+                if current_user.openai_api_key
+                else "gpt-3.5-turbo",
+                temperature=chat_question.temperature
+                if current_user.openai_api_key
+                else 256,
+                max_tokens=chat_question.max_tokens
+                if current_user.openai_api_key
+                else 0,
+                user_openai_api_key=current_user.openai_api_key,  # pyright: ignore reportPrivateUsage=none
+                chat_id=str(chat_id),
+                streaming=True,
+                prompt_id=chat_question.prompt_id,
+            )
+
+        print("streaming")
+        return StreamingResponse(
+            gpt_answer_generator.generate_stream(chat_id, chat_question),
+            media_type="text/event-stream",
+        )
+
+    except HTTPException as e:
+        raise e
+
+# cutomize this route to generate answer in the case of brain share with user_id, brain_id, without auth token,
+###### "/chat/{chat_id}/question/stream", => "/chat/{chat_id}/question/stream/share-brain",
+##################
+# remove authBear and can get current_user data from user_id.
+# ?? why need chat_id?.... refer 143 # create new chat
+##################
 # stream new question response from chat
 @chat_router.post(
     "/chat/{chat_id}/question/stream",
