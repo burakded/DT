@@ -103,7 +103,12 @@ export const useBrainProvider = () => {
     setDefaultBrainId((await getDefaultBrain())?.id);
   };
   useEffect(() => {
-    void fetchDefaultBrain();
+      // Condition to render NavBar & Footer
+    const renderNavBarFooter = location.pathname !== "/share-brain";
+   
+    if (renderNavBarFooter) {
+      void fetchDefaultBrain();
+    }
   }, []);
 
   return {

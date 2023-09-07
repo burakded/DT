@@ -15,13 +15,15 @@ export const App = ({ children }: PropsWithChildren): JSX.Element => {
   const { fetchAllBrains, fetchAndSetActiveBrain } = useBrainContext();
   const { session } = useSupabase();
 
-  useEffect(() => {
-    void fetchAllBrains();
-    void fetchAndSetActiveBrain();
-  }, [session?.user]);
-
   // Condition to render NavBar & Footer
   const renderNavBarFooter = location.pathname !== "/share-brain";
+
+  useEffect(() => {
+    if (renderNavBarFooter) { 
+      void fetchAllBrains();
+      void fetchAndSetActiveBrain();
+    }
+  }, [session?.user]);
 
   return (
     <>
