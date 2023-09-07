@@ -1,4 +1,5 @@
 "use client";
+import { useEffect } from "react"; 
 import { useTranslation } from "react-i18next";
 
 import Button from "@/lib/components/ui/Button";
@@ -8,10 +9,14 @@ import { ConfigModal } from "./components/ConfigModal";
 import { MicButton } from "./components/MicButton/MicButton";
 import { useChatInput } from "./hooks/useChatInput";
 
-export const ChatInput = (): JSX.Element => {
-  const { setMessage, submitQuestion, chatId, generatingAnswer, message } =
+export const ChatInput = (userId: string): JSX.Element => {
+  const { setMessage, setUserId, submitQuestion, chatId, generatingAnswer, message } =
     useChatInput();
   const { t } = useTranslation(["chat"]);
+ 
+  useEffect(() => {
+    setUserId(userId);
+  }, []);
 
   return (
     <form

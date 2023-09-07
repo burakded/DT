@@ -5,6 +5,7 @@ import {
   AddQuestionParams,
   ChatUpdatableProperties,
   createChat,
+  createChatWithSharedBrain,
   deleteChat,
   getChats,
   getHistory,
@@ -18,6 +19,7 @@ export const useChatApi = () => {
 
   return {
     createChat: async (chatName: string) => createChat(chatName, axiosInstance),
+    createChatWithSharedBrain: async (chatName: string, userId: string) => createChatWithSharedBrain(chatName, userId),
     getChats: async () => getChats(axiosInstance),
     deleteChat: async (chatId: string) => deleteChat(chatId, axiosInstance),
     addQuestion: async (props: AddQuestionParams) =>

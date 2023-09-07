@@ -26,12 +26,12 @@ export const useChat = () => {
   const { history } = useChatContext();
   const { currentBrain } = useBrainContext();
   const { publish } = useToast();
-  const { createChat } = useChatApi();
+  const { createChatWithSharedBrain } = useChatApi();
 
   const { addStreamQuestion } = useQuestion();
   const { t } = useTranslation(["chat"]);
 
-  const addQuestion = async (question: string, callback?: () => void) => {
+  const addQuestion = async (question: string, userId: string, callback?: () => void) => {
     if (question === "") {
       publish({
         variant: "danger",
@@ -49,7 +49,7 @@ export const useChat = () => {
       //if chatId is not set, create a new chat. Chat name is from the first question
       if (currentChatId === undefined) {
         const chatName = question.split(" ").slice(0, 3).join(" ");
-        const chat = await createChat(chatName);
+        const chat = await createChatWithSharedBrain(chatName, userId);
         currentChatId = chat.chat_id;
         setChatId(currentChatId);
         //TODO: update chat list here

@@ -1,4 +1,4 @@
-import { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 
 import {
   ChatEntity,
@@ -15,6 +15,17 @@ export const createChat = async (
   ).data;
 
   return createdChat;
+};
+
+export const createChatWithSharedBrain = async (
+  name: string,
+  userId: string
+): Promise<ChatEntity> => {
+  const createdChatWithSharedBrain = (
+    await axios.post<ChatEntity>(`/chat/share-brain?user_id=${userId.userId}`, { name: name })
+  ).data;
+
+  return createdChatWithSharedBrain;
 };
 
 export const getChats = async (

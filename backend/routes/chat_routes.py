@@ -140,7 +140,7 @@ async def update_chat_metadata_handler(
     return update_chat(chat_id=chat_id, chat_data=chat_data)
 
 
-143 
+# create new chat
 @chat_router.post("/chat", dependencies=[Depends(AuthBearer())], tags=["Chat"])
 async def create_chat_handler(
     chat_data: CreateChatProperties,
@@ -152,6 +152,19 @@ async def create_chat_handler(
 
     return create_chat(user_id=current_user.id, chat_data=chat_data)
 
+# create new chat without auth
+@chat_router.post("/chat/share-brain", tags=["Chat"])
+async def create_chat_handler(
+    chat_data: CreateChatProperties,
+    user_id: UUID,
+):
+    """
+    Create a new chat with initial chat messages.
+    """
+    print(f"============================================{user_id}, ====================={chat_data}")
+    # user_identity = get_user_identity(user_id)
+
+    return create_chat(user_id=user_id, chat_data=chat_data)
 
 # add new question to chat
 @chat_router.post(
