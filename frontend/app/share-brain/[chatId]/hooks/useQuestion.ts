@@ -67,7 +67,7 @@ export const useQuestion = (): UseChatService => {
         `http://147.182.142.200:5050/chat/${chatId}/question/stream/share-brain?brain_id=${brainId}&user_id=${userId}`,
         {
           method: "POST",
-          body: JSON.stringify(body),
+          body,
           headers: {
             "Content-Type": "application/json",
             Accept: "text/event-stream",
