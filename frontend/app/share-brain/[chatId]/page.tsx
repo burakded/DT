@@ -12,7 +12,7 @@ const SelectedChatPage = (): JSX.Element => {
   const searchParams = useSearchParams();
  
   const brainId = searchParams?.get('brainId');
-  const userId = searchParams?.get('userId');
+  const userId = searchParams?.get('userId') ?? "";
   console.log("brainId:", brainId, "userId:", userId, typeof userId);
 
   return (

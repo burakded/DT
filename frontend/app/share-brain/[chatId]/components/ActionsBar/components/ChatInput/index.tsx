@@ -9,7 +9,7 @@ import { ConfigModal } from "./components/ConfigModal";
 import { MicButton } from "./components/MicButton/MicButton";
 import { useChatInput } from "./hooks/useChatInput";
 
-export const ChatInput = (userId: string): JSX.Element => {
+export const ChatInput = ({ userId } : { userId: string }): JSX.Element => {
   const { setMessage, setUserId, submitQuestion, chatId, generatingAnswer, message } =
     useChatInput();
   const { t } = useTranslation(["chat"]);

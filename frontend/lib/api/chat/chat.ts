@@ -22,7 +22,7 @@ export const createChatWithSharedBrain = async (
   userId: string
 ): Promise<ChatEntity> => {
   const createdChatWithSharedBrain = (
-    await axios.post<ChatEntity>(`/chat/share-brain?user_id=${userId.userId}`, { name: name })
+    await axios.post<ChatEntity>(`/chat/share-brain?user_id=${userId}`, { name: name })
   ).data;
 
   return createdChatWithSharedBrain;
