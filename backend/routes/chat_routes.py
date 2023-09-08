@@ -162,7 +162,7 @@ async def create_chat_handler(
     """
     Create a new chat with initial chat messages.
     """
-    print(f"============================================{user_id}, ====================={chat_data}")
+  
     # user_identity = get_user_identity(user_id)
 
     return create_chat(user_id=user_id, chat_data=chat_data)
@@ -360,9 +360,7 @@ async def create_stream_share_question_handler(
     | None = Query(..., description="The ID of the brain"),
 ) -> StreamingResponse:
     # TODO: check if the user has access to the brain
-    print(f"share-stream=========================================================================================")
-    print(f"share-stream=1 {chat_id}, {user_id}, {brain_id}")
-    print(f"share-stream=2{chat_with_shared_brain_question}")
+  
     current_user = get_user_identity(user_id)
     # Create a new instance of ChatQuestion
     chat_question = ChatQuestion(

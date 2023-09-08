@@ -51,7 +51,6 @@ async def filter_file(
 ):
     await file.compute_file_sha1()
 
-    print("file sha1", file.file_sha1)
     file_exists = file.file_already_exists()
     file_exists_in_brain = file.file_already_exists_in_brain(brain_id)
 
@@ -71,7 +70,7 @@ async def filter_file(
             f"✅ {file.file.filename} has been uploaded to brain {brain_id}.",  # pyright: ignore reportPrivateUsage=none
             "success",
         )
-    print("filter_file wih extension: ", file.file_extension)
+    
     if file.file_extension in file_processors:
         try:
             await file_processors[file.file_extension](
@@ -80,14 +79,13 @@ async def filter_file(
                 brain_id=brain_id,
                 user_openai_api_key=openai_api_key,
             )
-            print("filter_file wih extension try==========: ", file.file_extension)
+            
             return create_response(
                 f"✅ {file.file.filename} has been uploaded to brain {brain_id}.",  # pyright: ignore reportPrivateUsage=none
                 "success",
             )
         except Exception as e:
             # Add more specific exceptions as needed.
-            print("filter_file wih extension catch: ", file.file_extension)
             print(f"Error processing file: {e}")
             return create_response(
                 f"⚠️ An error occurred while processing {file.file.filename}.",  # pyright: ignore reportPrivateUsage=none

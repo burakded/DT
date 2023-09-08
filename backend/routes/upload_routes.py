@@ -41,7 +41,6 @@ async def upload_file(
     and ensures that the file size does not exceed the maximum capacity. If the file is within the allowed size limit,
     it can optionally apply summarization to the file's content. The response message will indicate the status of the upload.
     """
-    print("===================================================================================================", brain_id)
     validate_brain_authorization(
         brain_id, current_user.id, [RoleEnum.Editor, RoleEnum.Owner]
     )
