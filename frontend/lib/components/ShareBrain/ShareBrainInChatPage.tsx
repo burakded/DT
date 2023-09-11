@@ -6,7 +6,7 @@ import { UUID } from "crypto";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 // import { ImUserPlus } from "react-icons/im";
-import { MdContentCopy, MdContentPaste, MdShare } from "react-icons/md";
+import { MdContentCopy, MdContentPaste } from "react-icons/md";
 
 // import { BrainUsers } from "@/lib/components/BrainUsers/BrainUsers";
 // import { UserToInvite } from "@/lib/components/UserToInvite";
