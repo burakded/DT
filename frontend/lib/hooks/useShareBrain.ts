@@ -25,14 +25,14 @@ export const useShareBrain = (brainId: string, userId: string) => {
   >([generateBrainAssignation()]);
   const { t } = useTranslation(["brain"]);
 
-  const baseUrl = window.location.origin;
-  // const brainShareLink = `${baseUrl}/invitation/${brainId}`;
-  const brainShareLink = `${baseUrl}/share-brain?brainId=${brainId}&userId=${userId}`;
-
   const { publish } = useToast();
   const { addBrainSubscriptions } = useBrainApi();
 
-  const { allBrains } = useBrainContext();
+  const { allBrains, currentBrain } = useBrainContext();
+  
+  const baseUrl = window.location.origin;
+  // const brainShareLink = `${baseUrl}/invitation/${brainId}`;
+  const brainShareLink = `${baseUrl}/share-brain?brainId=${brainId}&userId=${userId}&brainName=${currentBrain?.name ?? "this"}`;
   const hasShareBrainRights = requiredAccessToShareBrain.includes(
     allBrains.find((brain) => brain.id === brainId)?.role ?? "Viewer"
   );

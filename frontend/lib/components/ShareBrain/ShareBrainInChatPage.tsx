@@ -59,7 +59,8 @@ export const ShareBrainInChatPage = ({
           variant={"tertiary"}
           data-testId="share-brain-button"
         >
-          <MdShare className="text-xl w-20 h-20 " />
+          {/* <MdShare className="text-xl w-20 h-20 " /> */}
+          <p className="text-sm disabled:opacity-80 text-center font-medium rounded-md focus:ring ring-primary/10 outline-none flex items-center justify-center gap-2 bg-black border border-black dark:border-white disabled:bg-gray-500 disabled:hover:bg-gray-500 text-white dark:bg-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors px-3 py-2 sm:px-4 sm:py-2">Share</p>
         </Button>
       }
       CloseTrigger={<div />}

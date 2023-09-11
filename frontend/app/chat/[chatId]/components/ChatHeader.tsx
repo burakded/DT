@@ -12,9 +12,12 @@ export const ChatHeader = (): JSX.Element => {
 
   if (history.length !== 0) {
     return (
-      <h1 className="text-3xl font-bold text-center">
-        Chat with your Digital Twin
-      </h1>
+      <div className="flex items-center justify-center w-full relative">
+        <h1 className="text-3xl font-bold text-center">
+          Chat with your Digital Twin 
+        </h1>
+        <ShareBrainInChatPage brainId={currentBrain?.id ?? "00-00-00-00-00"} name={currentBrain?.name ?? ""} userId={userId}/>
+      </div>
     );
   }
 
