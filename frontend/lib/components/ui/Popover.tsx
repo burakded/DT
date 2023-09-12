@@ -1,7 +1,7 @@
 "use client";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { AnimatePresence, motion } from "framer-motion";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 import Button from "./Button";
 
@@ -12,6 +12,8 @@ interface PopoverProps {
   CloseTrigger?: ReactNode;
 }
 
+let time: Date | null;
+
 const Popover = ({
   children,
   Trigger,
@@ -19,6 +21,24 @@ const Popover = ({
   CloseTrigger,
 }: PopoverProps): JSX.Element => {
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {    
+    const curTime = new Date();
+
+    if(!time) {
+      time = new Date();
+    }
+
+    if (time.getTime() - curTime.getTime() > -100 && time.getTime() - curTime.getTime() !== 0) {
+      setOpen(!open);
+      time = null;
+
+      return;
+    } else {
+      time = curTime;
+    }
+    
+  }, [open]);
 
   return (
     <PopoverPrimitive.Root open={open} onOpenChange={setOpen}>

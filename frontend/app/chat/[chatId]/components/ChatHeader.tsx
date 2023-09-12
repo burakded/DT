@@ -14,7 +14,7 @@ export const ChatHeader = (): JSX.Element => {
     return (
       <div className="flex items-center justify-center w-full relative">
         <h1 className="text-3xl font-bold text-center">
-          Chat with your Digital Twin 
+          Chat with your Digital Twin - <span className="text-purple-500">{currentBrain?.name ?? ""}</span>
         </h1>
         <ShareBrainInChatPage brainId={currentBrain?.id ?? "00-00-00-00-00"} name={currentBrain?.name ?? ""} userId={userId}/>
       </div>
@@ -24,7 +24,7 @@ export const ChatHeader = (): JSX.Element => {
   return (
     <div className="flex items-center justify-center w-full relative">
       <h1 className="text-3xl font-bold text-center">
-        Chat with your Digital Twin
+        Chat with your Digital Twin - <span className="text-purple-500">{currentBrain?.name ?? ""}</span>
         <br />
         {t("empty_brain_title_prefix")}{" "}
         <span className="text-purple-500">{t("brain")}</span>{" "}
