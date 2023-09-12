@@ -400,7 +400,7 @@ async def create_stream_share_question_handler(
     print(chat_question)
     try:
         logger.info(f"Streaming request for {chat_question.model}")
-        check_user_requests_limit(current_user)
+        # check_user_requests_limit(current_user)
         gpt_answer_generator: HeadlessQA | OpenAIBrainPicking
         if brain_id:
             gpt_answer_generator = OpenAIBrainPicking(
