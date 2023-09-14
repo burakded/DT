@@ -2,6 +2,7 @@ import asyncio
 import json
 from typing import AsyncIterable, Awaitable, List, Optional
 from uuid import UUID
+from backend.repository.brain import get_brain_by_id
 
 from langchain.callbacks.streaming_aiter import AsyncIteratorCallbackHandler
 from langchain.chains import LLMChain
@@ -31,6 +32,18 @@ from llm.utils.get_prompt_to_use_id import get_prompt_to_use_id
 logger = get_logger(__name__)
 SYSTEM_MESSAGE = "Your name is a Digital Twin. You're a helpful assistant. If you don't know the answer, just say that you don't know, don't try to make up an answer."
 
+class StringModifier:
+    def __init__(self, default_prompt):
+        self.default_prompt = default_prompt
+
+    def add_string_at_index(self, additional_string, index):
+        first_part = self.default_prompt[:index]
+        second_part = self.default_prompt[index:]
+        prompt_content = first_part + additional_string + second_part
+        return prompt_content
+
+    def modify_default_prompt(self, new_prompt):
+        self.default_prompt = new_prompt
 
 class HeadlessQA(BaseModel):
     model: str = None  # type: ignore
@@ -114,8 +127,12 @@ class HeadlessQA(BaseModel):
         self, chat_id: UUID, question: ChatQuestion
     ) -> GetChatHistoryOutput:
         transformed_history = format_chat_history(get_chat_history(self.chat_id))
+
+        modifier = StringModifier(SYSTEM_MESSAGE)
+        brain = get_brain_by_id(self.brain_id)
+
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else SYSTEM_MESSAGE
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 26)
         )
 
         messages = format_history_to_openai_mesages(
@@ -162,8 +179,12 @@ class HeadlessQA(BaseModel):
         self.callbacks = [callback]
 
         transformed_history = format_chat_history(get_chat_history(self.chat_id))
+
+        modifier = StringModifier(SYSTEM_MESSAGE)
+        brain = get_brain_by_id(self.brain_id)
+
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else SYSTEM_MESSAGE
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 26)
         )
 
         messages = format_history_to_openai_mesages(

@@ -36,6 +36,18 @@ from .prompts.CONDENSE_PROMPT import CONDENSE_QUESTION_PROMPT
 logger = get_logger(__name__)
 QUIVR_DEFAULT_PROMPT = "Your name is a Digital Twin. You're a helpful assistant.  If you don't know the answer, just say that you don't know, don't try to make up an answer."
 
+class StringModifier:
+    def __init__(self, default_prompt):
+        self.default_prompt = default_prompt
+
+    def add_string_at_index(self, additional_string, index):
+        first_part = self.default_prompt[:index]
+        second_part = self.default_prompt[index:]
+        prompt_content = first_part + additional_string + second_part
+        return prompt_content
+
+    def modify_default_prompt(self, new_prompt):
+        self.default_prompt = new_prompt
 
 class QABaseBrainPicking(BaseBrainPicking):
     """
@@ -118,8 +130,11 @@ class QABaseBrainPicking(BaseBrainPicking):
         
         {context}"""
 
+        modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
+        brain = get_brain_by_id(self.brain_id)
+
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else QUIVR_DEFAULT_PROMPT
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 26)
         )
 
         full_template = (
@@ -158,8 +173,11 @@ class QABaseBrainPicking(BaseBrainPicking):
             verbose=False,
         )
 
+        modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
+        brain = get_brain_by_id(self.brain_id)
+
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else QUIVR_DEFAULT_PROMPT
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 26)
         )
 
         model_response = qa(
