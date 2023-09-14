@@ -34,7 +34,7 @@ from .base import BaseBrainPicking
 from .prompts.CONDENSE_PROMPT import CONDENSE_QUESTION_PROMPT
 
 logger = get_logger(__name__)
-QUIVR_DEFAULT_PROMPT = "Your name is a Digital Twin. You're a helpful assistant.  If you don't know the answer, just say that you don't know, don't try to make up an answer."
+QUIVR_DEFAULT_PROMPT = "Your name is a Digital Twin - . You're a helpful assistant.  If you don't know the answer, just say that you don't know, don't try to make up an answer."
 
 class StringModifier:
     def __init__(self, default_prompt):
@@ -134,7 +134,7 @@ class QABaseBrainPicking(BaseBrainPicking):
         brain = get_brain_by_id(self.brain_id)
 
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 26)
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 29)
         )
 
         full_template = (
@@ -177,7 +177,7 @@ class QABaseBrainPicking(BaseBrainPicking):
         brain = get_brain_by_id(self.brain_id)
 
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 26)
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 29)
         )
 
         model_response = qa(

@@ -2,7 +2,7 @@ import asyncio
 import json
 from typing import AsyncIterable, Awaitable, List, Optional
 from uuid import UUID
-from backend.repository.brain import get_brain_by_id
+from repository.brain import get_brain_by_id
 
 from langchain.callbacks.streaming_aiter import AsyncIteratorCallbackHandler
 from langchain.chains import LLMChain
@@ -30,7 +30,7 @@ from llm.utils.get_prompt_to_use import get_prompt_to_use
 from llm.utils.get_prompt_to_use_id import get_prompt_to_use_id
 
 logger = get_logger(__name__)
-SYSTEM_MESSAGE = "Your name is a Digital Twin. You're a helpful assistant. If you don't know the answer, just say that you don't know, don't try to make up an answer."
+SYSTEM_MESSAGE = "Your name is a Digital Twin - . You're a helpful assistant. If you don't know the answer, just say that you don't know, don't try to make up an answer."
 
 class StringModifier:
     def __init__(self, default_prompt):
@@ -132,7 +132,7 @@ class HeadlessQA(BaseModel):
         brain = get_brain_by_id(self.brain_id)
 
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 26)
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 29)
         )
 
         messages = format_history_to_openai_mesages(
@@ -184,7 +184,7 @@ class HeadlessQA(BaseModel):
         brain = get_brain_by_id(self.brain_id)
 
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 26)
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 29)
         )
 
         messages = format_history_to_openai_mesages(
