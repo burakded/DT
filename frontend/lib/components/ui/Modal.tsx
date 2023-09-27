@@ -1,6 +1,6 @@
 "use client";
 import * as Dialog from "@radix-ui/react-dialog";
-import { AnimatePresence, motion, px } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdClose } from "react-icons/md";
