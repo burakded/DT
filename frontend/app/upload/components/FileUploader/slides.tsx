@@ -2,9 +2,8 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Carousel } from 'react-responsive-carousel';
+
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-// eslint-disable-next-line import/order
-import Image from 'next/image';
 import Button from "@/lib/components/ui/Button";
 import Card from "@/lib/components/ui/Card";
 

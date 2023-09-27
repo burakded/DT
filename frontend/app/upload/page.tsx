@@ -13,7 +13,6 @@ import { redirectToLogin } from "@/lib/router/redirectToLogin";
 
 import { Crawler } from "./components/Crawler";
 import { FileUploader } from "./components/FileUploader";
-import { Slides } from "./components/FileUploader/slides";
 
 const requiredRolesForUpload: BrainRoleType[] = ["Editor", "Owner"];
 
