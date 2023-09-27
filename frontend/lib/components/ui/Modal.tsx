@@ -1,6 +1,6 @@
 "use client";
 import * as Dialog from "@radix-ui/react-dialog";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion, px } from "framer-motion";
 import { ReactNode, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { MdClose } from "react-icons/md";
@@ -45,7 +45,7 @@ export const Modal = ({
             <Dialog.Overlay asChild forceMount>
               <motion.div
                 // className="fixed inset-0 z-50 flex justify-center py-20 overflow-auto cursor-pointer md:z-40 bg-black/50 backdrop-blur-sm"
-                className="fixed inset-0 z-50 flex justify-center py-20 overflow-auto cursor-pointer md:z-40 bg-black/50"
+                className="fixed inset-0 z-50 flex justify-center py-25 overflow-auto cursor-pointer md:z-40 bg-black/50"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -57,6 +57,7 @@ export const Modal = ({
                     animate={{ opacity: 1, y: "0%" }}
                     exit={{ opacity: 0, y: "40%" }}
                     className="w-[90vw] my-auto flex flex-col h-fit max-w-2xl rounded-xl bg-white dark:bg-black border border-black/10 dark:border-white/25 p-10 shadow-xl dark:shadow-primary/50 focus:outline-none cursor-auto"
+                    
                   >
                     <Dialog.Title
                       className="m-0 text-2xl font-bold"

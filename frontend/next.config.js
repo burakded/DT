@@ -12,6 +12,9 @@ const nextConfig = {
       return [];
     }
   },
+  images: {
+    domains: ['mdbcdn.b-cdn.net'],
+  },
 };
 
 const ContentSecurityPolicy = `

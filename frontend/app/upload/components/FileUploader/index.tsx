@@ -1,74 +1,33 @@
 "use client";
-import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { BiSolidCloudUpload } from "react-icons/bi";
 
 import Button from "@/lib/components/ui/Button";
-import Card from "@/lib/components/ui/Card";
+import { Modal } from "@/lib/components/ui/Modal";
 
-import FileComponent from "./components/FileComponent";
-import { useFileUploader } from "./hooks/useFileUploader";
+import { Slides } from "./slides";
 
 export const FileUploader = (): JSX.Element => {
-  const {
-    getInputProps,
-    getRootProps,
-    isDragActive,
-    isPending,
-    open,
-    uploadAllFiles,
-    files,
-    setFiles,
-  } = useFileUploader();
-
   const { t } = useTranslation(["translation", "upload"]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <section
-      {...getRootProps()}
-      className="w-full outline-none flex flex-col gap-10 items-center justify-center px-6 py-3"
-    >
-      <div className="flex flex-col sm:flex-row max-w-3xl w-full items-center gap-5">
-        <div className="flex-1 w-full">
-          <Card className="h-52 flex justify-center items-center">
-            <input {...getInputProps()} />
-            <div className="text-center p-6 max-w-sm w-full flex flex-col gap-5 items-center">
-              {isDragActive ? (
-                <p className="text-blue-600">{t("drop", { ns: "upload" })}</p>
-              ) : (
-                <button
-                  onClick={open}
-                  className="opacity-50 h-full cursor-pointer hover:opacity-100 hover:underline transition-opacity"
-                >
-                  {t("dragAndDrop", { ns: "upload" })}
-                </button>
-              )}
-            </div>
-          </Card>
-        </div>
-
-        {files.length > 0 && (
-          <div className="flex-1 w-full">
-            <Card className="h-52 py-3 overflow-y-auto">
-              {files.length > 0 ? (
-                <AnimatePresence mode="popLayout">
-                  {files.map((file) => (
-                    <FileComponent
-                      key={`${file.name} ${file.size}`}
-                      file={file}
-                      setFiles={setFiles}
-                    />
-                  ))}
-                </AnimatePresence>
-              ) : null}
-            </Card>
-          </div>
-        )}
-      </div>
-      <div className="flex flex-col items-center justify-center">
-        <Button isLoading={isPending} onClick={() => void uploadAllFiles()}>
-          {isPending ? t("uploadingButton") : t("uploadButton")}
-        </Button>
-      </div>
-    </section>
+    <>
+      <Modal
+        Trigger={
+          <Button variant={"secondary"} className="m-auto my-10 w-[20%]">
+            <BiSolidCloudUpload className="text-xl h-[50px] w-[50px]" />
+          </Button>
+        }
+        title={t("newBrainTitle", { ns: "brain" })}
+        desc={t("newBrainSubtitle", { ns: "brain" })}
+        isOpen={isModalOpen}
+        setOpen={setIsModalOpen}
+        CloseTrigger={<div />}
+      >
+        <Slides />
+      </Modal>
+    </>
   );
 };
