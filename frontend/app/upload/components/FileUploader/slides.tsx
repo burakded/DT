@@ -80,7 +80,7 @@ export const Slides = (): JSX.Element => {
         </div>
         <div className="flex flex-col items-center justify-center mb-6">
           <Button isLoading={isPending} onClick={() => void uploadAllFiles()}>
-            {isPending ? t("uploadingButton") : t("uploadButton")}
+            {isPending === true ? t("uploadingButton") : t("uploadButton")}
           </Button>
         </div>
       </section>
@@ -131,7 +131,7 @@ export const Slides = (): JSX.Element => {
         </div>
         <div className="flex flex-col items-center justify-center mb-6">
           <Button isLoading={isPending} onClick={() => void uploadAllFiles()}>
-            {isPending ? t("uploadingButton") : t("uploadButton")}
+            {isPending === true ? t("uploadingButton") : t("uploadButton")}
           </Button>
         </div>
       </section>
