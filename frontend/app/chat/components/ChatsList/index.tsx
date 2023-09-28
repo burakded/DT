@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 import { ChatsListItem } from "./components/ChatsListItem";
 import { MiniFooter } from "./components/ChatsListItem/components/MiniFooter";
+import { CustomizeButton } from "./components/CustomizeButton";
 import { NewChatButton } from "./components/NewChatButton";
 import { useChatsList } from "./hooks/useChatsList";
 import { useSelectedChatPage } from "../../[chatId]/hooks/useSelectedChatPage";
@@ -44,6 +45,7 @@ export const ChatsList = (): JSX.Element => {
         >
           <div className="flex flex-col flex-1">
             <NewChatButton />
+            <CustomizeButton />
             <div
               data-testid="chats-list-items"
               className="flex-1 overflow-auto scrollbar h-full"
