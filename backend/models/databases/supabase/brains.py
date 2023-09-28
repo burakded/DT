@@ -55,7 +55,7 @@ class Brain(Repository):
     def get_user_brains(self, user_id) -> list[MinimalBrainEntity]:
         response = (
             self.db.from_("brains_users")
-            .select("id:brain_id, rights, brains (id: brain_id, name)")
+            .select("id:brain_id, rights, brains (id: brain_id, name, base_prompt)")
             .filter("user_id", "eq", user_id)
             .execute()
         )

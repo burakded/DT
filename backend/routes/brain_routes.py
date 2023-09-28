@@ -229,6 +229,7 @@ async def update_brain_base_prompt_endpoint(
     """
     Update an existing brain base prompt
     """
+    print("base Prompt=============>", base_prompt)
 
     update_brain_base_prompt_by_id(brain_id, base_prompt)
 
