@@ -17,6 +17,7 @@ from repository.brain import (
     get_user_default_brain,
     set_as_default_brain_for_user,
     update_brain_by_id,
+    update_brain_base_prompt_by_id,
 )
 from repository.prompt import delete_prompt_by_id, get_prompt_by_id
 from routes.authorizations.brain_authorization import has_brain_authorization
@@ -208,3 +209,28 @@ async def set_as_default_brain_endpoint(
     set_as_default_brain_for_user(user.id, brain_id)
 
     return {"message": f"Brain {brain_id} has been set as default brain."}
+
+
+# update existing brain base prompt
+@brain_router.put(
+    "/brains/base-prompt/{brain_id}/",
+    dependencies=[
+        Depends(
+            AuthBearer(),
+        ),
+        # Depends(has_brain_authorization([RoleEnum.Editor, RoleEnum.Owner])),
+    ],
+    tags=["Brain"],
+)
+async def update_brain_base_prompt_endpoint(
+    brain_id: UUID,
+    base_prompt: str,
+):
+    """
+    Update an existing brain base prompt
+    """
+
+    update_brain_base_prompt_by_id(brain_id, base_prompt)
+
+    return {"message": f"Brain {brain_id} base prompt has been updated."}
+

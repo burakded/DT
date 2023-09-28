@@ -23,6 +23,7 @@ class Brain(BaseModel):
     files: List[Any] = []
     max_brain_size = BrainRateLimiting().max_brain_size
     prompt_id: Optional[UUID] = None
+    base_prompt: Optional[str] = ""
 
     class Config:
         arbitrary_types_allowed = True

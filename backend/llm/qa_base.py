@@ -130,8 +130,13 @@ class QABaseBrainPicking(BaseBrainPicking):
         
         {context}"""
 
-        modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
+        # modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
         brain = get_brain_by_id(self.brain_id)
+
+        if brain.base_prompt == "":
+            modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
+        else:
+            modifier = StringModifier(brain.base_prompt)
 
         prompt_content = (
             self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 29)
@@ -173,8 +178,13 @@ class QABaseBrainPicking(BaseBrainPicking):
             verbose=False,
         )
 
-        modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
+        # modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
         brain = get_brain_by_id(self.brain_id)
+
+        if brain.base_prompt == "":
+            modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
+        else:
+            modifier = StringModifier(brain.base_prompt)
 
         prompt_content = (
             self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 29)

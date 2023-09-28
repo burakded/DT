@@ -18,6 +18,7 @@ class CreateBrainProperties(BaseModel):
     max_tokens: Optional[int] = 256
     openai_api_key: Optional[str] = None
     prompt_id: Optional[UUID] = None
+    base_prompt: Optional[str] = ""
 
     def dict(self, *args, **kwargs):
         brain_dict = super().dict(*args, **kwargs)
@@ -187,6 +188,21 @@ class Brain(Repository):
             return None
 
         return BrainEntity(**update_brain_response[0])
+    
+    def update_brain_base_prompt_by_id(
+        self, brain_id: UUID, base_prompt: str
+    ) -> BrainEntity | None:
+        update_brain_response = (
+            self.db.table("brains")
+            .update({"base_prompt": base_prompt})
+            .match({"brain_id": brain_id})
+            .execute()
+        ).data
+
+        if len(update_brain_response) == 0:
+            return None
+
+        return BrainEntity(**update_brain_response[0])
 
     def get_brain_vector_ids(self, brain_id):
         """
@@ -259,7 +275,7 @@ class Brain(Repository):
     def get_brain_by_id(self, brain_id: UUID) -> BrainEntity | None:
         response = (
             self.db.from_("brains")
-            .select("id:brain_id, name, *")
+            .select("id:brain_id, name, base_prompt, *")
             .filter("brain_id", "eq", brain_id)
             .execute()
         ).data
