@@ -15,7 +15,7 @@ import { useEventTracking } from "@/services/analytics/useEventTracking";
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useFileUploader = () => {
   const { track } = useEventTracking();
-  const [isPending, setIsPending] = useState(false);
+  const [isPending, setIsPending] = useState<boolean | undefined>();
   const { publish } = useToast();
   const [files, setFiles] = useState<File[]>([]);
   const { session } = useSupabase();
