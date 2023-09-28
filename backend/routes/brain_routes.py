@@ -253,6 +253,6 @@ async def get_brain_base_prompt_endpoint(
     Get an existing brain base prompt
     """
 
-    get_brain_base_prompt_by_id(brain_id)
+    prompt = get_brain_base_prompt_by_id(brain_id)
 
-    return {"message": f"Brain {brain_id} base prompt has been updated."}
+    return {"prompt": prompt}
