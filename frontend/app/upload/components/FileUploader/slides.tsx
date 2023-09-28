@@ -146,7 +146,7 @@ export const Slides = (): JSX.Element => {
   ]
 
   useEffect(() => {
-    if (!isPending) {
+    if (!isPending && selectedIndex !== 0) {
       setSelectedIndex((prev) => prev + 1);
     }
   }, [isPending])
@@ -160,6 +160,7 @@ export const Slides = (): JSX.Element => {
           showStatus={false}
           showThumbs={false}
           showArrows={false}
+          showIndicators={false}
         >
           {
             slideTitles.map((title, index) => (
