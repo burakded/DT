@@ -18,6 +18,7 @@ from repository.brain import (
     set_as_default_brain_for_user,
     update_brain_by_id,
     update_brain_base_prompt_by_id,
+    get_brain_base_prompt_by_id,
 )
 from repository.prompt import delete_prompt_by_id, get_prompt_by_id
 from routes.authorizations.brain_authorization import has_brain_authorization
@@ -229,9 +230,29 @@ async def update_brain_base_prompt_endpoint(
     """
     Update an existing brain base prompt
     """
-    print("base Prompt=============>", base_prompt)
-
     update_brain_base_prompt_by_id(brain_id, base_prompt)
 
     return {"message": f"Brain {brain_id} base prompt has been updated."}
 
+
+# retrieve existing brain base prompt
+@brain_router.get(
+    "/brains/base-prompt/{brain_id}/",
+    dependencies=[
+        Depends(
+            AuthBearer(),
+        ),
+        # Depends(has_brain_authorization([RoleEnum.Editor, RoleEnum.Owner])),
+    ],
+    tags=["Brain"],
+)
+async def get_brain_base_prompt_endpoint(
+    brain_id: UUID,
+):
+    """
+    Get an existing brain base prompt
+    """
+
+    get_brain_base_prompt_by_id(brain_id)
+
+    return {"message": f"Brain {brain_id} base prompt has been updated."}

@@ -9,3 +9,9 @@ def update_brain_base_prompt_by_id(brain_id: UUID, base_prompt: str) -> BrainEnt
     supabase_db = get_supabase_db()
 
     return supabase_db.update_brain_base_prompt_by_id(brain_id, base_prompt)
+
+def get_brain_base_prompt_by_id(brain_id: UUID) -> str:
+    """Update a prompt by id"""
+    supabase_db = get_supabase_db()
+
+    return supabase_db.get_brain_base_prompt_by_id(brain_id)

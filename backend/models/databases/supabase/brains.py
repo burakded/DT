@@ -203,6 +203,20 @@ class Brain(Repository):
             return None
 
         return BrainEntity(**update_brain_response[0])
+    
+    def get_brain_base_prompt_by_id(self, brain_id: UUID) -> str | None:
+        get_brain_response = (
+            self.db.table("brains")
+            .select("base_prompt")
+            .match({"brain_id": brain_id})
+            .execute()
+        ).data
+
+        if len(get_brain_response) == 0:
+            return None
+
+        return get_brain_response[0]["base_prompt"]
+
 
     def get_brain_vector_ids(self, brain_id):
         """
