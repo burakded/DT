@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { ShareBrainInChatPage } from "@/lib/components/ShareBrain";
 import { useChatContext } from "@/lib/context";
 import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
+
 import { CustomizeButton } from "./CustomizeButton";
 
 export const ChatHeader = (): JSX.Element => {
@@ -17,7 +18,7 @@ export const ChatHeader = (): JSX.Element => {
         <h1 className="text-3xl font-bold text-center">
           Chat with your Digital Twin - <span className="text-purple-500">{currentBrain?.name ?? ""}</span>
         </h1>
-        <ShareBrainInChatPage brainId={currentBrain?.id ?? "00-00-00-00-00"} name={currentBrain?.name ?? ""} userId={userId}/>
+        <ShareBrainInChatPage brainId={currentBrain?.id ?? "00-00-00-00-00"} name={currentBrain?.name ?? ""} userId={userId} />
       </div>
     );
   }
@@ -32,8 +33,8 @@ export const ChatHeader = (): JSX.Element => {
         {t("empty_brain_title_suffix")}
       </h1>
       <div className="absolute right-0 flex items-center justify-between">
-        <ShareBrainInChatPage brainId={currentBrain?.id ?? "00-00-00-00-00"} name={currentBrain?.name ?? ""} userId={userId}/>
-        <CustomizeButton  brainId={currentBrain?.id ?? "00-00-00-00-00"} />
+        <ShareBrainInChatPage brainId={currentBrain?.id ?? "00-00-00-00-00"} name={currentBrain?.name ?? ""} userId={userId} />
+        <CustomizeButton brainId={currentBrain?.id ?? "00-00-00-00-00"} />
       </div>
     </div>
   );
