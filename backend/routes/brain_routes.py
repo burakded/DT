@@ -1,7 +1,8 @@
 from uuid import UUID
 
 from auth import AuthBearer, get_current_user
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Body
+from pydantic import BaseModel
 from logger import get_logger
 from models import BrainRateLimiting, UserIdentity
 from models.databases.supabase.brains import (
@@ -211,6 +212,8 @@ async def set_as_default_brain_endpoint(
 
     return {"message": f"Brain {brain_id} has been set as default brain."}
 
+class UpdateBrainBasePromptRequest(BaseModel):
+    base_prompt: str
 
 # update existing brain base prompt
 @brain_router.put(
@@ -225,11 +228,12 @@ async def set_as_default_brain_endpoint(
 )
 async def update_brain_base_prompt_endpoint(
     brain_id: UUID,
-    base_prompt: str,
+    request_body: UpdateBrainBasePromptRequest = Body(...),
 ):
     """
     Update an existing brain base prompt
     """
+    base_prompt = request_body.base_prompt
     update_brain_base_prompt_by_id(brain_id, base_prompt)
 
     return {"message": f"Brain {brain_id} base prompt has been updated."}

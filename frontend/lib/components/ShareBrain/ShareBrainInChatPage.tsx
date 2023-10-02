@@ -54,13 +54,13 @@ export const ShareBrainInChatPage = ({
     <Modal
       Trigger={
         <Button
-          className="absolute right-0 gap-x-10 group-hover:visible hover:text-red-500 transition-[colors,opacity] p-1"
+          className="gap-x-10 group-hover:visible hover:text-red-500 transition-[colors,opacity] p-1"
           onClick={() => void 0}
           variant={"tertiary"}
           data-testId="share-brain-button"
         >
-          {/* <MdShare className="text-xl w-20 h-20 " /> */}
-          <p className="text-sm disabled:opacity-80 text-center font-medium rounded-md focus:ring ring-primary/10 outline-none flex items-center justify-center gap-2 bg-black border border-black dark:border-white disabled:bg-gray-500 disabled:hover:bg-gray-500 text-white dark:bg-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-200 transition-colors px-3 py-2 sm:px-4 sm:py-2">Share</p>
+          {/* <MdShare className="w-20 h-20 text-xl " /> */}
+          <p className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-center text-white transition-colors bg-black border border-black rounded-md outline-none disabled:opacity-80 focus:ring ring-primary/10 dark:border-white disabled:bg-gray-500 disabled:hover:bg-gray-500 dark:bg-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-200 sm:px-4 sm:py-2">Share</p>
         </Button>
       }
       CloseTrigger={<div />}

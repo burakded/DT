@@ -7,7 +7,6 @@ import { cn } from "@/lib/utils";
 
 import { ChatsListItem } from "./components/ChatsListItem";
 import { MiniFooter } from "./components/ChatsListItem/components/MiniFooter";
-import { CustomizeButton } from "./components/CustomizeButton";
 import { NewChatButton } from "./components/NewChatButton";
 import { useChatsList } from "./hooks/useChatsList";
 import { useSelectedChatPage } from "../../[chatId]/hooks/useSelectedChatPage";
@@ -45,10 +44,9 @@ export const ChatsList = (): JSX.Element => {
         >
           <div className="flex flex-col flex-1">
             <NewChatButton />
-            <CustomizeButton />
             <div
               data-testid="chats-list-items"
-              className="flex-1 overflow-auto scrollbar h-full"
+              className="flex-1 h-full overflow-auto scrollbar"
             >
               {allChats.map((chat) => (
                 <ChatsListItem key={chat.chat_id} chat={chat} />
@@ -61,7 +59,7 @@ export const ChatsList = (): JSX.Element => {
           onClick={() => {
             setOpen(!open);
           }}
-          className="absolute left-full top-16 text-3xl bg-black dark:bg-white text-white dark:text-black rounded-r-full p-3 pl-1"
+          className="absolute p-3 pl-1 text-3xl text-white bg-black rounded-r-full left-full top-16 dark:bg-white dark:text-black"
           data-testid="chats-list-toggle"
         >
           <motion.div
