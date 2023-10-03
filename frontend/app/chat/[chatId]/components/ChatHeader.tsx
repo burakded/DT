@@ -39,11 +39,14 @@ export const ChatHeader = (): JSX.Element => {
           Chat with your Digital Twin -{" "}
           <span className="text-purple-500">{currentBrain?.name ?? ""}</span>
         </h1>
-        <ShareBrainInChatPage
-          brainId={currentBrain?.id ?? "00-00-00-00-00"}
-          name={currentBrain?.name ?? ""}
-          userId={userId}
-        />
+        <div className="absolute right-0 flex items-center justify-between">
+          <ShareBrainInChatPage
+            brainId={currentBrain?.id ?? "00-00-00-00-00"}
+            name={currentBrain?.name ?? ""}
+            userId={userId}
+          />
+          <CustomizeButton brainId={currentBrain?.id ?? "00-00-00-00-00"} />
+        </div>
       </div>
     );
   }
