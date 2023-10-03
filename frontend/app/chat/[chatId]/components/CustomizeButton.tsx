@@ -29,12 +29,16 @@ export const CustomizeButton = ({ brainId }: { brainId: string }): JSX.Element =
     }
   }
 
+  // Wrap handleSend in a closure to provide a void return value
+  const handleSendWrapper = () => {
+    handleSend().then(() => { return; }).catch((e) => console.log(e));
+  };
+
   const showBaseprompt = async () => {
     try {
       const response = await fetchInstance.get(
         `/brains/base-prompt/${brainId}/`
       );
-      console.log(response)
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any
       const responseData: any = await response.json();
       if ('prompt' in responseData) {
@@ -78,7 +82,7 @@ export const CustomizeButton = ({ brainId }: { brainId: string }): JSX.Element =
         <Button
           variant={"secondary"}
           className="z-20 flex items-center justify-center w-auto px-4 py-2 m-auto my-3 text-xl bg-white border rounded-lg shadow-lg align-center border-primary dark:bg-black hover:text-white hover:bg-black top-1"
-          onClick={handleSend}
+          onClick={handleSendWrapper}
         >
           <BsFillSendFill />&nbsp; <p>Send</p>
         </Button>
