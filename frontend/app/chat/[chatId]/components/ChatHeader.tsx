@@ -9,33 +9,44 @@ import { CustomizeButton } from "./CustomizeButton";
 export const ChatHeader = (): JSX.Element => {
   const { t } = useTranslation(["chat"]);
   const { history } = useChatContext();
-  const { userId, currentBrain } =
-    useBrainContext();
+  const { userId, currentBrain } = useBrainContext();
 
-  if (history.length !== 0) {
-    return (
-      <div className="relative flex items-center justify-center w-full">
-        <h1 className="text-3xl font-bold text-center">
-          Chat with your Digital Twin - <span className="text-purple-500">{currentBrain?.name ?? ""}</span>
-        </h1>
-        <ShareBrainInChatPage brainId={currentBrain?.id ?? "00-00-00-00-00"} name={currentBrain?.name ?? ""} userId={userId} />
-      </div>
-    );
-  }
-
-  return (
+  const renderContent = () => (
     <div className="relative flex items-center justify-center w-full">
       <h1 className="text-3xl font-bold text-center">
-        Chat with your Digital Twin - <span className="text-purple-500">{currentBrain?.name ?? ""}</span>
+        Chat with your Digital Twin -{" "}
+        <span className="text-purple-500">{currentBrain?.name ?? ""}</span>
         <br />
         {t("empty_brain_title_prefix")}{" "}
         <span className="text-purple-500">{t("brain")}</span>{" "}
         {t("empty_brain_title_suffix")}
       </h1>
       <div className="absolute right-0 flex items-center justify-between">
-        <ShareBrainInChatPage brainId={currentBrain?.id ?? "00-00-00-00-00"} name={currentBrain?.name ?? ""} userId={userId} />
+        <ShareBrainInChatPage
+          brainId={currentBrain?.id ?? "00-00-00-00-00"}
+          name={currentBrain?.name ?? ""}
+          userId={userId}
+        />
         <CustomizeButton brainId={currentBrain?.id ?? "00-00-00-00-00"} />
       </div>
     </div>
   );
+
+  if (history.length !== 0) {
+    return (
+      <div className="relative flex items-center justify-center w-full">
+        <h1 className="text-3xl font-bold text-center">
+          Chat with your Digital Twin -{" "}
+          <span className="text-purple-500">{currentBrain?.name ?? ""}</span>
+        </h1>
+        <ShareBrainInChatPage
+          brainId={currentBrain?.id ?? "00-00-00-00-00"}
+          name={currentBrain?.name ?? ""}
+          userId={userId}
+        />
+      </div>
+    );
+  }
+
+  return renderContent();
 };
