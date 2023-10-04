@@ -135,6 +135,7 @@ class QABaseBrainPicking(BaseBrainPicking):
 
         if brain.base_prompt == "":
             modifier = StringModifier(QUIVR_DEFAULT_PROMPT)
+            modifier.add_string_at_index(brain.name, 29)
         else:
             modifier = StringModifier(brain.base_prompt)
 
