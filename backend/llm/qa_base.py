@@ -139,7 +139,7 @@ class QABaseBrainPicking(BaseBrainPicking):
             modifier = StringModifier(brain.base_prompt)
 
         prompt_content = (
-            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index(brain.name, 29)
+            self.prompt_to_use.content if self.prompt_to_use else modifier.add_string_at_index("", 29)
         )
 
         full_template = (
