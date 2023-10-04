@@ -10,8 +10,11 @@ import Card from "@/lib/components/ui/Card";
 import FileComponent from "./components/FileComponent";
 import { useFileUploader } from "./hooks/useFileUploader";
 
+type SlidesProps = {
+  setIsModalOpen: (value: boolean) => void;
+}
 
-export const Slides = (): JSX.Element => {
+export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
 
   const {
     getInputProps,
@@ -86,7 +89,7 @@ export const Slides = (): JSX.Element => {
       </section>
     );
   };
-  const uploadContent = (): JSX.Element => {
+  const lastUploadContent = (): JSX.Element => {
     return (
       <section
         {...getRootProps()}
@@ -140,10 +143,14 @@ export const Slides = (): JSX.Element => {
 
   const contents: JSX.Element[] = [
     slidesContent(),
-    uploadContent(),
-    uploadContent(),
-    uploadContent(),
+    slidesContent(),
+    slidesContent(),
+    lastUploadContent(),
   ]
+
+  const handleFinishClick = () => {
+    setIsModalOpen(false);
+  }
 
   useEffect(() => {
     if (isPending === false) {
@@ -180,10 +187,16 @@ export const Slides = (): JSX.Element => {
           Prev
         </button>
         <button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800"
-          onClick={() => { setSelectedIndex((next) => next + 1) }}
+          onClick={() => {
+            if (selectedIndex === 3) {
+              handleFinishClick();
+            } else {
+              setSelectedIndex((next) => next + 1);
+            }
+          }}
           disabled={files.length !== 0 || isPending === true}
         >
-          Next
+          {selectedIndex === 3 ? "Finish" : "Next"}
         </button>
       </div>
     </>

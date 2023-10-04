@@ -26,7 +26,7 @@ export const FileUploader = (): JSX.Element => {
         setOpen={setIsModalOpen}
         CloseTrigger={<div />}
       >
-        <Slides />
+        <Slides setIsModalOpen={setIsModalOpen}/>
       </Modal>
     </>
   );

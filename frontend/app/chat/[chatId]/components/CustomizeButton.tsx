@@ -23,7 +23,7 @@ export const CustomizeButton = ({ brainId }: { brainId: string }): JSX.Element =
         `/brains/base-prompt/${brainId}`,
         body,
         headers,
-      );
+      ).then(() => { setIsModalOpen(false); }).catch((e) => console.log(e));
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +35,7 @@ export const CustomizeButton = ({ brainId }: { brainId: string }): JSX.Element =
   };
 
   const showBaseprompt = async () => {
-    try {
+    try {  
       const response = await fetchInstance.get(
         `/brains/base-prompt/${brainId}/`
       );

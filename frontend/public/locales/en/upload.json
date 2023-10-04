@@ -1,6 +1,6 @@
 {
     "title":"Upload Knowledge",
-    "subtitle":"Text, document, spreadsheet, presentation, audio, video, and URLs supported",
+    "subtitle":"Text, document, spreadsheet, presentation and URLs supported",
     "drop":"Drop the files here...",
     "dragAndDrop":"Drag and drop files here, or click to browse",
     "webSite": "Insert website URL",
