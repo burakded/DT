@@ -1,4 +1,5 @@
 import { AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Carousel } from 'react-responsive-carousel';
@@ -42,19 +43,19 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
     return (
       <section
         {...getRootProps()}
-        className="w-full outline-none flex flex-col gap-10 items-center justify-center px-6 py-3"
+        className="flex flex-col items-center justify-center w-full gap-10 px-6 py-3 outline-none"
       >
-        <div className="flex flex-col sm:flex-row max-w-3xl w-full items-center gap-5">
+        <div className="flex flex-col items-center w-full max-w-3xl gap-5 sm:flex-row">
           <div className="flex-1 w-full">
-            <Card className="h-52 flex justify-center items-center">
+            <Card className="flex items-center justify-center h-52">
               <input {...getInputProps()} />
-              <div className="text-center p-6 max-w-sm w-full flex flex-col gap-5 items-center">
+              <div className="flex flex-col items-center w-full max-w-sm gap-5 p-6 text-center">
                 {isDragActive ? (
                   <p className="text-blue-600">{t("drop", { ns: "upload" })}</p>
                 ) : (
                   <button
                     onClick={open}
-                    className="opacity-50 h-full cursor-pointer hover:opacity-100 hover:underline transition-opacity"
+                    className="h-full transition-opacity opacity-50 cursor-pointer hover:opacity-100 hover:underline"
                   >
                     {t("dragAndDrop", { ns: "upload" })}
                   </button>
@@ -65,7 +66,7 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
 
           {files.length > 0 && (
             <div className="flex-1 w-full">
-              <Card className="h-52 py-3 overflow-y-auto">
+              <Card className="py-3 overflow-y-auto h-52">
                 {files.length > 0 ? (
                   <AnimatePresence mode="popLayout">
                     {files.map((file) => (
@@ -93,19 +94,19 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
     return (
       <section
         {...getRootProps()}
-        className="w-full outline-none flex flex-col gap-10 items-center justify-center px-6 py-3"
+        className="flex flex-col items-center justify-center w-full gap-10 px-6 py-3 outline-none"
       >
-        <div className="flex flex-col sm:flex-row max-w-3xl w-full items-center gap-5">
+        <div className="flex flex-col items-center w-full max-w-3xl gap-5 sm:flex-row">
           <div className="flex-1 w-full">
-            <Card className="h-52 flex justify-center items-center">
+            <Card className="flex items-center justify-center h-52">
               <input {...getInputProps()} />
-              <div className="text-center p-6 max-w-sm w-full flex flex-col gap-5 items-center">
+              <div className="flex flex-col items-center w-full max-w-sm gap-5 p-6 text-center">
                 {isDragActive ? (
                   <p className="text-blue-600">{t("drop", { ns: "upload" })}</p>
                 ) : (
                   <button
                     onClick={open}
-                    className="opacity-50 h-full cursor-pointer hover:opacity-100 hover:underline transition-opacity"
+                    className="h-full transition-opacity opacity-50 cursor-pointer hover:opacity-100 hover:underline"
                   >
                     {t("dragAndDrop", { ns: "upload" })}
                   </button>
@@ -116,7 +117,7 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
 
           {files.length > 0 && (
             <div className="flex-1 w-full">
-              <Card className="h-52 py-3 overflow-y-auto">
+              <Card className="py-3 overflow-y-auto h-52">
                 {files.length > 0 ? (
                   <AnimatePresence mode="popLayout">
                     {files.map((file) => (
@@ -172,7 +173,22 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
           {
             slideTitles.map((title, index) => (
               <div key={index}>
-                <a>{title}</a>
+                  <div className="flex items-center justify-center mb-4">
+                    <div className="w-[10%]">
+                      <Image
+                        src={`/brains/quadrant${index + 1}.png`}
+                        alt="Quadrant Logic"
+                        width={100}
+                        height={100}
+                      />
+                    </div>
+                    <div>
+                      <p>Quadrant Logic</p>
+                    </div>
+                  </div>
+                  <div>
+                    <a>{title}</a>
+                  </div>
                 {contents[index]}
               </div>
             ))
