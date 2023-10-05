@@ -63,7 +63,7 @@ export const CustomizeButton = ({ brainId }: { brainId: string }): JSX.Element =
       <Modal
         Trigger={
           <button
-            className="z-20 flex items-center justify-center px-3 py-1.5 bg-white border rounded-lg shadow-lg border-primary dark:bg-black hover:text-white hover:bg-primary top-1"
+            className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-center text-white transition-colors bg-black border border-black rounded-md outline-none disabled:opacity-80 focus:ring ring-primary/10 dark:border-white disabled:bg-gray-500 disabled:hover:bg-gray-500 dark:bg-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-200 sm:px-4 sm:py-2"
             // eslint-disable-next-line @typescript-eslint/no-misused-promises
             onClick={showBaseprompt}
           >
