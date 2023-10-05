@@ -21,7 +21,7 @@ export const FileUploader = (): JSX.Element => {
           </Button>
         }
         title={t("newBrainTitle", { ns: "brain" })}
-        desc={t("newBrainSubtitle", { ns: "brain" })}
+        // desc={t("newBrainSubtitle", { ns: "brain" })}
         isOpen={isModalOpen}
         setOpen={setIsModalOpen}
         CloseTrigger={<div />}

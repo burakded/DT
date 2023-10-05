@@ -161,7 +161,7 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
 
   return (
     <>
-      <section>
+      <section className="p-0 py-2">
         <Carousel
           selectedItem={selectedIndex}
           onChange={handleSelect}
@@ -173,8 +173,9 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
           {
             slideTitles.map((title, index) => (
               <div key={index}>
-                  <div className="flex items-center justify-center mb-4">
-                    <div className="w-[10%]">
+                <div className="flex justify-center items-center relative">
+                  <div className="flex self-start absolute left-0">
+                    <div className="flex flex-row items-center justify-center w-[15%]">
                       <Image
                         src={`/brains/quadrant${index + 1}.png`}
                         alt="Quadrant Logic"
@@ -182,13 +183,16 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
                         height={100}
                       />
                     </div>
-                    <div>
-                      <p>Quadrant Logic</p>
+                    <div >
+                      <p className="text-sm my-1">Quadrant Logic</p>
                     </div>
                   </div>
-                  <div>
-                    <a>{title}</a>
+                  <div className="flex self-center">
+                    <div>
+                      <a className="text-xl">{title}</a>
+                    </div>
                   </div>
+                </div>
                 {contents[index]}
               </div>
             ))
