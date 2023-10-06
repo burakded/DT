@@ -173,8 +173,8 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
           {
             slideTitles.map((title, index) => (
               <div key={index}>
-                <div className="flex justify-center items-center relative">
-                  <div className="flex self-start absolute left-0">
+                <div className="m-auto">
+                  <div className="flex items-center justify-center">
                     <div className="flex flex-row items-center justify-center w-[15%]">
                       <Image
                         src={`/brains/quadrant${index + 1}.png`}
@@ -184,10 +184,10 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
                       />
                     </div>
                     <div >
-                      <p className="text-sm my-1">Quadrant Logic</p>
+                      <p className="my-1 text-sm">Quadrant Logic</p>
                     </div>
                   </div>
-                  <div className="flex self-center">
+                  <div className="flex justify-center">
                     <div>
                       <a className="text-xl">{title}</a>
                     </div>
