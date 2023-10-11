@@ -24,6 +24,7 @@ class Brain(BaseModel):
     max_brain_size = BrainRateLimiting().max_brain_size
     prompt_id: Optional[UUID] = None
     base_prompt: Optional[str] = ""
+    ui_properties: Optional[str] = ""
 
     class Config:
         arbitrary_types_allowed = True

@@ -190,11 +190,11 @@ class Brain(Repository):
         return BrainEntity(**update_brain_response[0])
     
     def update_brain_base_prompt_by_id(
-        self, brain_id: UUID, base_prompt: str
+        self, brain_id: UUID, base_prompt: str, ui_properties: str
     ) -> BrainEntity | None:
         update_brain_response = (
             self.db.table("brains")
-            .update({"base_prompt": base_prompt})
+            .update({"base_prompt": base_prompt, "ui_properties": ui_properties})
             .match({"brain_id": brain_id})
             .execute()
         ).data
@@ -204,6 +204,19 @@ class Brain(Repository):
 
         return BrainEntity(**update_brain_response[0])
     
+    def get_brain_ui_properties_by_id(self, brain_id: UUID) -> str | None:
+        get_brain_response = (
+            self.db.table("brains")
+            .select("ui_properties")
+            .match({"brain_id": brain_id})
+            .execute()
+        ).data
+
+        if len(get_brain_response) == 0:
+            return None
+        
+        return get_brain_response[0]["ui_properties"]
+
     def get_brain_base_prompt_by_id(self, brain_id: UUID) -> str | None:
         get_brain_response = (
             self.db.table("brains")

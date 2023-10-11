@@ -1,7 +1,7 @@
 from .create_brain import create_brain
 from .get_brain_by_id import get_brain_by_id
 from .update_brain import update_brain_by_id
-from .update_brain_base_prompt import update_brain_base_prompt_by_id, get_brain_base_prompt_by_id
+from .update_brain_base_prompt import update_brain_base_prompt_by_id, get_brain_base_prompt_by_id, get_brain_ui_properties_by_id
 from .get_user_brains import get_user_brains
 from .get_brain_details import get_brain_details
 from .create_brain_user import create_brain_user
