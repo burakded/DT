@@ -34,3 +34,4 @@ class MinimalBrainEntity(BaseModel):
     id: UUID
     name: str
     rights: RoleEnum
+    ui_properties: str

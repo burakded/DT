@@ -66,6 +66,7 @@ class Brain(Repository):
                     id=item["brains"]["id"],
                     name=item["brains"]["name"],
                     rights=item["rights"],
+
                 )
             )
             user_brains[-1].rights = item["rights"]
@@ -74,7 +75,7 @@ class Brain(Repository):
     def get_brain_for_user(self, user_id, brain_id) -> MinimalBrainEntity | None:
         response = (
             self.db.from_("brains_users")
-            .select("id:brain_id, rights, brains (id: brain_id, name)")
+            .select("id:brain_id, rights, brains (id: brain_id, name, ui_properties)")
             .filter("user_id", "eq", user_id)
             .filter("brain_id", "eq", brain_id)
             .execute()
@@ -87,6 +88,7 @@ class Brain(Repository):
             id=brain_data["brains"]["id"],
             name=brain_data["brains"]["name"],
             rights=brain_data["rights"],
+            ui_properties=brain_data["brains"]["ui_properties"]
         )
 
     def get_brain_details(self, brain_id):
