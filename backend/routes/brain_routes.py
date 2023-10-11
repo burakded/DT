@@ -235,7 +235,7 @@ async def update_brain_base_prompt_endpoint(
     Update an existing brain base prompt
     """
     base_prompt = request_body.base_prompt
-    ui_properties = request.body.ui_properties
+    ui_properties = request_body.ui_properties
     update_brain_base_prompt_by_id(brain_id, base_prompt, ui_properties)
 
     return {"message": f"Brain {brain_id} base prompt has been updated."}
