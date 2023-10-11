@@ -215,6 +215,7 @@ async def set_as_default_brain_endpoint(
 
 class UpdateBrainBasePromptRequest(BaseModel):
     base_prompt: str
+    ui_properties: str
 
 # update existing brain base prompt
 @brain_router.put(
