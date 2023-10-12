@@ -1,6 +1,6 @@
 import { useFeature } from "@growthbook/growthbook-react";
 import React from "react";
-import ReactMarkdown from "react-markdown";
+// import ReactMarkdown from "react-markdown";
 
 import { UIpropertyProps } from "@/app/chat/[chatId]/types";
 import { cn } from "@/lib/utils";
@@ -36,7 +36,7 @@ export const ChatMessage = React.forwardRef(
       isUserSpeaker ? "items-end" : "items-start"
     );
 
-    const markdownClasses = cn(`prose text-[${isUserSpeaker? ui.UserFontSize : ui.AIFontSize}px]`, "dark:prose-invert");
+    // const markdownClasses = cn(`prose text-[${isUserSpeaker? ui.UserFontSize : ui.AIFontSize}px]`, "dark:prose-invert");
 
     return (
       <div className={containerWrapperClasses}>
@@ -58,7 +58,8 @@ export const ChatMessage = React.forwardRef(
             </span>
           )}
           <div data-testid="chat-message-text">
-            <ReactMarkdown className={markdownClasses}>{text}</ReactMarkdown>
+            {/* <ReactMarkdown className={markdownClasses}>{text}</ReactMarkdown> */}
+            <p style={{ fontSize: isUserSpeaker ? ui.UserFontSize : ui.AIFontSize }}>{text}</p>
           </div>
         </div>
       </div>

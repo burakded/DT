@@ -14,7 +14,7 @@ const SelectedChatPage = (): JSX.Element => {
   const brainId = searchParams?.get('brainId') ?? "";
   const userId = searchParams?.get('userId') ?? "";
   const brainName = searchParams?.get('brainName') ?? "";
-  console.log("brainId:", brainId, "userId:", userId, typeof userId);
+
 
   return (
     <main className="flex flex-col w-full pt-10" data-testid="chat-page">
@@ -24,7 +24,7 @@ const SelectedChatPage = (): JSX.Element => {
           <div className="flex flex-col flex-1 overflow-hidden">
             <ChatDialog />
           </div>
-          <ActionsBar userId={userId}  brainId={brainId}/>
+          <ActionsBar userId={userId}  brainId={brainId} />
         </div>
       </section>
     </main>

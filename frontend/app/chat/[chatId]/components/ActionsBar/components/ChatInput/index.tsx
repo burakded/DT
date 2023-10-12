@@ -20,7 +20,7 @@ export const ChatInput = (): JSX.Element => {
         e.preventDefault();
         submitQuestion();
       }}
-      className="sticky flex items-star bottom-0 bg-white dark:bg-black w-full flex justify-center gap-2 z-20"
+      className="sticky flex items-star bottom-0 bg-white dark:bg-black w-full justify-center gap-2 z-20"
     >
       <div className="flex flex-1 flex-col items-center">
         <ChatBar
