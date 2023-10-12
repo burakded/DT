@@ -1,6 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BsFillSendFill, BsMagic } from "react-icons/bs";
+import {
+  BsChevronLeft,
+  BsChevronRight,
+  BsFillSendFill,
+  BsMagic,
+} from "react-icons/bs";
 import { FaSpinner } from "react-icons/fa";
 
 import Button from "@/lib/components/ui/Button";
@@ -22,6 +27,7 @@ export const CustomizeButton = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [textValue, setTextValue] = useState("");
+  const [isStepFinished, setIsStepFinished] = useState(false);
   const [UIproperty, setUIProperty] = useState<UIpropertyProps>({
     AIBgColor: "#F3E8FF",
     AIFontColor: "#374151",
@@ -58,11 +64,15 @@ export const CustomizeButton = ({
 
   // Wrap handleSend in a closure to provide a void return value
   const handleSendWrapper = () => {
-    handleSend()
-      .then(() => {
-        return;
-      })
-      .catch((e) => console.log(e));
+    if (isStepFinished) {
+      handleSend()
+        .then(() => {
+          return;
+        })
+        .catch((e) => console.log(e));
+    } else {
+      setIsStepFinished(true);
+    }
   };
 
   const showBaseprompt = async () => {
@@ -117,6 +127,12 @@ export const CustomizeButton = ({
     }
   }, [currentBrain]);
 
+  useEffect(() => {
+    if (!isModalOpen) {
+      setIsStepFinished(false);
+    }
+  }, [isModalOpen]);
+
   return (
     <>
       <Modal
@@ -131,80 +147,108 @@ export const CustomizeButton = ({
           </button>
         }
         title={"Customize your brain"}
-        desc={"Edit base prompt here"}
         isOpen={isModalOpen}
         setOpen={setIsModalOpen}
         CloseTrigger={<div />}
       >
-        <textarea
-          value={textValue}
-          onChange={handleTextChange}
-          className="w-full h-[100px] px-4 py-2 border rounded-md bg-gray-50 dark:bg-gray-900 border-black/10 dark:border-white/25 p-auto"
-        />
-        {/* Customize the Interface */}
-        <div className="py-2">
-          <p className="opacity-50">Edit Your Chat Interface</p>
-        </div>
-        <div className="flex justify-between mb-3">
-          <ColorPicker
-            title="Brain Background Color"
-            color={UIproperty.AIBgColor}
-            onChange={(color) => onColorChange(color, "AIBgColor")}
-          />
-          <ColorPicker
-            title="Brain Font Color"
-            color={UIproperty.AIFontColor}
-            onChange={(color) => onColorChange(color, "AIFontColor")}
-          />
-          <div className="my-2">
-            <p className="mb-2">Brain Font Size</p>
-            <div className="flex gap-2 items-center">
-              <Field
-                className="w-16"
-                name="brain_fontSize"
-                value={UIproperty.AIFontSize}
-                onChange={(e) => onFontChange(e.target.value, "AIFontSize")}
-              />
-              <p>px</p>
+        {isStepFinished ? (
+          <>
+            {/* Customize the Interface */}
+            <div className="py-2">
+              <p>Edit Your Chat Interface</p>
             </div>
-          </div>
-        </div>
-        <div className="flex justify-between mb-3">
-          <ColorPicker
-            title="User Background Color"
-            color={UIproperty.UserBgColor}
-            onChange={(color) => onColorChange(color, "UserBgColor")}
-          />
-          <ColorPicker
-            title="User Font Color"
-            color={UIproperty.UserFontColor}
-            onChange={(color) => onColorChange(color, "UserFontColor")}
-          />
-          <div className="my-2">
-            <p className="mb-2">User Font Size</p>
-            <div className="flex gap-2 items-center">
-              <Field
-                className="w-16"
-                name="User_fontSize"
-                value={UIproperty.UserFontSize}
-                onChange={(e) => onFontChange(e.target.value, "UserFontSize")}
+            <div className="flex justify-between mb-3">
+              <ColorPicker
+                title="Brain Background Color"
+                color={UIproperty.AIBgColor}
+                onChange={(color) => onColorChange(color, "AIBgColor")}
               />
-              <p>px</p>
+              <ColorPicker
+                title="Brain Font Color"
+                color={UIproperty.AIFontColor}
+                onChange={(color) => onColorChange(color, "AIFontColor")}
+              />
+              <div className="my-2">
+                <p className="mb-2">Brain Font Size</p>
+                <div className="flex gap-2 items-center">
+                  <Field
+                    className="w-16"
+                    name="brain_fontSize"
+                    value={UIproperty.AIFontSize}
+                    onChange={(e) => onFontChange(e.target.value, "AIFontSize")}
+                  />
+                  <p>px</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <Button
-          variant={"secondary"}
-          className="z-20 flex items-center justify-center w-auto px-4 py-2 m-auto my-3 text-xl bg-white border rounded-lg shadow-lg align-center border-primary dark:bg-black hover:text-white hover:bg-black top-1"
-          onClick={handleSendWrapper}
-        >
-          {isLoading ? (
-            <FaSpinner className="animate-spin" />
+            <div className="flex justify-between mb-3">
+              <ColorPicker
+                title="User Background Color"
+                color={UIproperty.UserBgColor}
+                onChange={(color) => onColorChange(color, "UserBgColor")}
+              />
+              <ColorPicker
+                title="User Font Color"
+                color={UIproperty.UserFontColor}
+                onChange={(color) => onColorChange(color, "UserFontColor")}
+              />
+              <div className="my-2">
+                <p className="mb-2">User Font Size</p>
+                <div className="flex gap-2 items-center">
+                  <Field
+                    className="w-16"
+                    name="User_fontSize"
+                    value={UIproperty.UserFontSize}
+                    onChange={(e) =>
+                      onFontChange(e.target.value, "UserFontSize")
+                    }
+                  />
+                  <p>px</p>
+                </div>
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <p className="mb-2">Edit Base Prompt Here</p>
+            <textarea
+              value={textValue}
+              onChange={handleTextChange}
+              className="w-full h-[100px] px-4 py-2 border rounded-md bg-gray-50 dark:bg-gray-900 border-black/10 dark:border-white/25 p-auto"
+            />
+          </>
+        )}
+        <div className="my-3 flex justify-between gap-3">
+          {isStepFinished ? (
+            <>
+              <Button
+                variant={"primary"}
+                className="z-20 flex items-center grow justify-center px-4 py-2 text-xl bg-black border rounded-lg shadow-lg align-center border-primary dark:bg-white hover:text-black hover:bg-white top-1"
+                onClick={() => setIsStepFinished(false)}
+              >
+                <BsChevronLeft />
+                Back
+              </Button>
+            </>
           ) : (
-            <BsFillSendFill />
+            <></>
           )}
-          &nbsp; <p>Send</p>
-        </Button>
+          <Button
+            variant={"secondary"}
+            className="z-20 flex items-center grow justify-center px-4 py-2 text-xl bg-white border rounded-lg shadow-lg align-center border-primary dark:bg-black hover:text-white hover:bg-black top-1"
+            onClick={handleSendWrapper}
+          >
+            {isLoading ? (
+              <FaSpinner className="animate-spin" />
+            ) : isStepFinished ? (
+              <BsFillSendFill />
+            ) : (
+              <></>
+            )}
+            <p>{isStepFinished ? "Send" : "Next"}</p>
+            {isStepFinished ? <></> : <BsChevronRight />}
+          </Button>
+        </div>
       </Modal>
     </>
   );
