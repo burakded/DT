@@ -267,12 +267,6 @@ async def get_brain_base_prompt_endpoint(
 # retrieve existing brain ui properties
 @brain_router.get(
     "/brains/ui-properties/{brain_id}/",
-    dependencies=[
-        Depends(
-            AuthBearer(),
-        ),
-        # Depends(has_brain_authorization([RoleEnum.Editor, RoleEnum.Owner])),
-    ],
     tags=["Brain"],
 )
 async def get_brain_ui_properties_endpoint(
