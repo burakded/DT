@@ -10,7 +10,7 @@ import { Modal } from "@/lib/components/ui/Modal";
 import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
 import { useFetch } from "@/lib/hooks";
 
-import { UIpropertyProps } from "../types";
+import { UIpropertyDefault, UIpropertyProps } from "../types";
 
 export const CustomizeButton = ({
   brainId,
@@ -105,11 +105,14 @@ export const CustomizeButton = ({
 
   useEffect(() => {
     if (currentBrain) {
-
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-condition
-      if (currentBrain.ui_properties !== undefined && currentBrain.ui_properties !== '') {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        setUIProperty(JSON.parse(currentBrain.ui_properties));
+      if (currentBrain.ui_properties !== undefined) {
+        if (currentBrain.ui_properties !== "") {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          setUIProperty(JSON.parse(currentBrain.ui_properties));
+        } else {
+          setUIProperty(UIpropertyDefault);
+        }
       }
     }
   }, [currentBrain]);

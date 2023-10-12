@@ -6,7 +6,7 @@ import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainConte
 
 import { ChatMessage } from "./components/ChatMessage/components/ChatMessage";
 import { useChatMessages } from "./hooks/useChatMessages";
-import { UIpropertyProps } from "../../types";
+import { UIpropertyDefault, UIpropertyProps } from "../../types";
 
 export const ChatMessages = (): JSX.Element => {
   const { history } = useChatContext();
@@ -25,9 +25,13 @@ export const ChatMessages = (): JSX.Element => {
   useEffect(() => {
     if (currentBrain) {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unnecessary-condition
-      if (currentBrain.ui_properties !== undefined && currentBrain.ui_properties !== '') {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        setUI(JSON.parse(currentBrain.ui_properties));
+      if (currentBrain.ui_properties !== undefined) {
+        if (currentBrain.ui_properties !== "") {
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+          setUI(JSON.parse(currentBrain.ui_properties));
+        } else {
+          setUI(UIpropertyDefault);
+        }
       }
     }
   }, [currentBrain]);
@@ -59,7 +63,7 @@ export const ChatMessages = (): JSX.Element => {
               brain_name,
               prompt_title,
             }) => (
-              <React.Fragment key={message_id} >
+              <React.Fragment key={message_id}>
                 <ChatMessage
                   key={`user-${message_id}`}
                   speaker={"user"}

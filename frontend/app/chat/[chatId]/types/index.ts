@@ -33,3 +33,12 @@ export type UIpropertyProps = {
   UserFontColor: string;
   UserFontSize: number;
 }
+
+export const UIpropertyDefault = {
+  AIBgColor: "#F3E8FF",
+  AIFontColor: "#374151",
+  AIFontSize: 16,
+  UserBgColor: "#F3F4F6",
+  UserFontColor: "#374151",
+  UserFontSize: 16,
+}
