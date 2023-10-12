@@ -17,12 +17,14 @@ export type Brain = {
   openai_api_key?: string;
   description?: string;
   prompt_id?: string | null;
+  ui_properties?: string;
 };
 
 export type MinimalBrainForUser = {
   id: UUID;
   name: string;
   role: BrainRoleType;
+  ui_properties: string;
 };
 
 export type MinimalBrainWithShareForUser = {

@@ -24,3 +24,12 @@ export type ChatEntity = {
   creation_time: string;
   chat_name: string;
 };
+
+export type UIpropertyProps = {
+  AIBgColor: string;
+  AIFontColor: string;
+  AIFontSize: number;
+  UserBgColor: string;
+  UserFontColor: string;
+  UserFontSize: number;
+}

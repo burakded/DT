@@ -60,7 +60,7 @@ export const useBrainProvider = () => {
   const fetchAllBrains = useCallback(async () => {
     setIsFetchingBrains(true);
     try {
-      const { brains, userId} = await getBrains();
+      const { brains, userId } = await getBrains();
       setAllBrains(brains);
       setCurrentUserId(userId);
     } catch (error) {

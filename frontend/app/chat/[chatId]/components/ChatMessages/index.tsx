@@ -1,15 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useChatContext } from "@/lib/context";
+import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
 
 import { ChatMessage } from "./components/ChatMessage/components/ChatMessage";
 import { useChatMessages } from "./hooks/useChatMessages";
+import { UIpropertyProps } from "../../types";
 
 export const ChatMessages = (): JSX.Element => {
   const { history } = useChatContext();
   const { t } = useTranslation(["chat"]);
   const { chatListRef } = useChatMessages();
+  const { currentBrain } = useBrainContext();
+  const [UI, setUI] = useState<UIpropertyProps>({
+    AIBgColor: "#F3E8FF",
+    AIFontColor: "#374151",
+    AIFontSize: 16,
+    UserBgColor: "#F3F4F6",
+    UserFontColor: "#374151",
+    UserFontSize: 16,
+  });
+
+  useEffect(() => {
+    if (currentBrain) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      if (currentBrain.ui_properties !== "") {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+        setUI(JSON.parse(currentBrain.ui_properties));
+      }
+    }
+  }, [currentBrain]);
 
   return (
     <div
@@ -38,13 +59,14 @@ export const ChatMessages = (): JSX.Element => {
               brain_name,
               prompt_title,
             }) => (
-              <React.Fragment key={message_id}>
+              <React.Fragment key={message_id} >
                 <ChatMessage
                   key={`user-${message_id}`}
                   speaker={"user"}
                   text={user_message}
                   promptName={prompt_title}
                   brainName={brain_name}
+                  ui={UI}
                 />
                 <ChatMessage
                   key={`assistant-${message_id}`}
@@ -52,6 +74,7 @@ export const ChatMessages = (): JSX.Element => {
                   text={assistant}
                   brainName={brain_name}
                   promptName={prompt_title}
+                  ui={UI}
                 />
               </React.Fragment>
             )

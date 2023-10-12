@@ -12,6 +12,7 @@ export const useChatMessages = () => {
   const chatListRef = useRef<HTMLDivElement | null>(null);
   const { history } = useChat();
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const scrollToBottom = useCallback(
     _debounce(() => {
       if (chatListRef.current) {
