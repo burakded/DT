@@ -33,10 +33,7 @@ export const useShareBrain = (brainId: string, userId: string) => {
   const baseUrl = window.location.origin;
 
   // const brainShareLink = `${baseUrl}/invitation/${brainId}`;
-  const brainShareLink = `${baseUrl}/share-brain?
-    brainId=${brainId}&
-    userId=${userId}&
-    brainName=${currentBrain?.name ?? "this"}`;
+  const brainShareLink = `${baseUrl}/share-brain?brainId=${brainId}&userId=${userId}&brainName=${currentBrain?.name ?? "this"}`;
   const embedLink =`<script> window.danteEmbed = "${baseUrl}/embed?brainId=${brainId}&userId=${userId}&brainName=${currentBrain?.name ?? "this"}&modeltype=gpt-3.5-turbo&mode=false&bubble=true&image=null&bubbleopen=false" </script> <script src="https://chat.dante-ai.com/bubble-embed.js"></script>`;
   const hasShareBrainRights = requiredAccessToShareBrain.includes(
     allBrains.find((brain) => brain.id === brainId)?.role ?? "Viewer"
