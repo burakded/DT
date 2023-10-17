@@ -22,7 +22,8 @@ export const createChatWithSharedBrain = async (
   userId: string
 ): Promise<ChatEntity> => {
   const createdChatWithSharedBrain = (
-    await axios.post<ChatEntity>(`http://147.182.142.200:5050/chat/share-brain?user_id=${userId}`, { name: name })
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    await axios.post<ChatEntity>(`${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/share-brain?user_id=${userId}`, { name: name })
   ).data;
 
   return createdChatWithSharedBrain;

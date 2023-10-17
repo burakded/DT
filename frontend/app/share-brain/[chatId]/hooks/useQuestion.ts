@@ -65,7 +65,8 @@ export const useQuestion = (): UseChatService => {
     console.log("Calling API...");
     try {
       const response = await fetch(
-        `http://147.182.142.200:5050/chat/${chatId}/question/stream/share-brain?brain_id=${brainId}&user_id=${userId}`,
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/chat/${chatId}/question/stream/share-brain?brain_id=${brainId}&user_id=${userId}`,
         {
           method: "POST",
           body,
