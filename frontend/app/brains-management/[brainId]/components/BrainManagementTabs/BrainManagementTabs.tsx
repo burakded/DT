@@ -45,7 +45,7 @@ export const BrainManagementTabs = (): JSX.Element => {
           onChange={setSelectedTab}
         />
         <BrainTabTrigger
-          selected={selectedTab === "knowledge"}
+          selected={selectedTab === "knowledge"   }
           label={t("knowledge", { ns: "config" })}
           value="knowledge"
           onChange={setSelectedTab}
