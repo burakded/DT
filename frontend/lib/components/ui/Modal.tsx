@@ -60,13 +60,13 @@ export const Modal = ({
                     
                   >
                     <Dialog.Title
-                      className="m-0 text-2xl font-bold"
+                      className="m-0 text-2xl font-bold border-b border-grey pb-3"
                       data-testid="modal-title"
                     >
                       {title}
                     </Dialog.Title>
                     <Dialog.Description
-                      className="opacity-50"
+                      className="opacity-50 py-3"
                       data-testid="modal-description"
                     >
                       {desc}

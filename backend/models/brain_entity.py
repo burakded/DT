@@ -16,6 +16,7 @@ class BrainEntity(BaseModel):
     status: Optional[str]
     prompt_id: Optional[UUID]
     base_prompt: Optional[str]
+    ui_properties: Optional[str]
 
     @property
     def id(self) -> UUID:
@@ -33,3 +34,4 @@ class MinimalBrainEntity(BaseModel):
     id: UUID
     name: str
     rights: RoleEnum
+    ui_properties: str

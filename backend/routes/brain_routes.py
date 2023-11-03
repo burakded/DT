@@ -20,6 +20,7 @@ from repository.brain import (
     update_brain_by_id,
     update_brain_base_prompt_by_id,
     get_brain_base_prompt_by_id,
+    get_brain_ui_properties_by_id
 )
 from repository.prompt import delete_prompt_by_id, get_prompt_by_id
 from routes.authorizations.brain_authorization import has_brain_authorization
@@ -214,6 +215,7 @@ async def set_as_default_brain_endpoint(
 
 class UpdateBrainBasePromptRequest(BaseModel):
     base_prompt: str
+    ui_properties: str
 
 # update existing brain base prompt
 @brain_router.put(
@@ -234,7 +236,8 @@ async def update_brain_base_prompt_endpoint(
     Update an existing brain base prompt
     """
     base_prompt = request_body.base_prompt
-    update_brain_base_prompt_by_id(brain_id, base_prompt)
+    ui_properties = request_body.ui_properties
+    update_brain_base_prompt_by_id(brain_id, base_prompt, ui_properties)
 
     return {"message": f"Brain {brain_id} base prompt has been updated."}
 
@@ -258,5 +261,21 @@ async def get_brain_base_prompt_endpoint(
     """
 
     prompt = get_brain_base_prompt_by_id(brain_id)
+
+    return {"prompt": prompt}
+
+# retrieve existing brain ui properties
+@brain_router.get(
+    "/brains/ui-properties/{brain_id}/",
+    tags=["Brain"],
+)
+async def get_brain_ui_properties_endpoint(
+    brain_id: UUID,
+):
+    """
+    Get an existing brain ui properties
+    """
+
+    prompt = get_brain_ui_properties_by_id(brain_id)
 
     return {"prompt": prompt}

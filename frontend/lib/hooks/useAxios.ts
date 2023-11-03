@@ -6,6 +6,7 @@ import { useSupabase } from "@/lib/context/SupabaseProvider";
 import { DEFAULT_BACKEND_URL } from "../config/CONSTANTS";
 
 const axiosInstance = axios.create({
+  // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
   baseURL: `${process.env.NEXT_PUBLIC_BACKEND_URL ?? DEFAULT_BACKEND_URL}`,
 });
 

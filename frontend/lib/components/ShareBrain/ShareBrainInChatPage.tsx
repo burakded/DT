@@ -21,25 +21,40 @@ type ShareBrainModalProps = {
   userId: string;
 };
 
+type copyType = {
+  share: boolean;
+  embed: boolean;
+};
+
 export const ShareBrainInChatPage = ({
   brainId,
   name,
-  userId
+  userId,
 }: ShareBrainModalProps): JSX.Element => {
-  const {
-    brainShareLink,
-    setIsShareModalOpen,
-    isShareModalOpen,
-  } = useShareBrain(brainId, userId);
+  const { brainShareLink, embedLink, setIsShareModalOpen, isShareModalOpen } =
+    useShareBrain(brainId, userId);
   const { publish } = useToast();
   const { t } = useTranslation(["translation", "brain"]);
-  const [isCopied, setIsCopied] = useState(false);
+  const [isCopied, setIsCopied] = useState<copyType>({
+    share: false,
+    embed: false,
+  });
 
-  const handleCopyShareLink = () => {
+  const handleCopyShareLink = (link: string) => {
     // writeText function to copy or write data to clipboard
-    copy(brainShareLink);
-    // invoked if the data is copied
-    setIsCopied(true);
+    if (link === "share") {
+      copy(brainShareLink);
+      setIsCopied({
+        ...isCopied,
+        share: true,
+      });
+    } else {
+      copy(embedLink);
+      setIsCopied({
+        ...isCopied,
+        embed: true,
+      });
+    }
     publish({
       text: "Copied to clipboard",
       variant: "success",
@@ -47,8 +62,11 @@ export const ShareBrainInChatPage = ({
   };
 
   useEffect(() => {
-    setIsCopied(false);
-  }, [isShareModalOpen])
+    setIsCopied({
+      share: false,
+      embed: false
+    });
+  }, [isShareModalOpen]);
 
   return (
     <Modal
@@ -60,7 +78,9 @@ export const ShareBrainInChatPage = ({
           data-testId="share-brain-button"
         >
           {/* <MdShare className="w-20 h-20 text-xl " /> */}
-          <p className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-center text-white transition-colors bg-black border border-black rounded-md outline-none disabled:opacity-80 focus:ring ring-primary/10 dark:border-white disabled:bg-gray-500 disabled:hover:bg-gray-500 dark:bg-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-200 sm:px-4 sm:py-2">Share</p>
+          <p className="flex items-center justify-center gap-2 px-3 py-2 text-sm font-medium text-center text-white transition-colors bg-black border border-black rounded-md outline-none disabled:opacity-80 focus:ring ring-primary/10 dark:border-white disabled:bg-gray-500 disabled:hover:bg-gray-500 dark:bg-white dark:text-black hover:bg-gray-700 dark:hover:bg-gray-200 sm:px-4 sm:py-2">
+            Share
+          </p>
         </Button>
       }
       CloseTrigger={<div />}
@@ -82,13 +102,37 @@ export const ShareBrainInChatPage = ({
               </div>
               <Button
                 type="button"
-                onClick={handleCopyShareLink}
+                onClick={() => handleCopyShareLink("share")}
               >
-                {isCopied ? <MdContentPaste /> : <MdContentCopy />}
+                {isCopied.share ? <MdContentPaste /> : <MdContentCopy />}
               </Button>
             </div>
           </div>
-          <p className="pb-[25px]">Please share this link with others so that they can also use this brain.</p>
+          <p className="pb-[25px]">
+            Please share this link with others so that they can also use this
+            brain!
+          </p>
+          <div className="bg-gray-100 h-0.5 mb-5 border-gray-200 dark:border-gray-700" />
+        </div>
+
+        <div>
+          <div className="flex flex-row my-5 align-center">
+            <div className="flex flex-row flex-1 p-3 bg-gray-100 border-b border-gray-200 rounded dark:border-gray-700 justify-space-between align-center">
+              <div className="flex flex-1 overflow-hidden">
+                <p className="flex-1 color-gray-500">{embedLink}</p>
+              </div>
+              <Button
+                type="button"
+                onClick={() => handleCopyShareLink("embed")}
+              >
+                {isCopied.embed ? <MdContentPaste /> : <MdContentCopy />}
+              </Button>
+            </div>
+          </div>
+          <p className="pb-[25px]">
+            Please embed this link so that you can also use this on your own
+            websites!
+          </p>
           <div className="bg-gray-100 h-0.5 mb-5 border-gray-200 dark:border-gray-700" />
 
           {/* {roleAssignations.map((roleAssignation, index) => (

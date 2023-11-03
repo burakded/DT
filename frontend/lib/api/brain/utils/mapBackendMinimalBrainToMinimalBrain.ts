@@ -9,4 +9,5 @@ export const mapBackendMinimalBrainToMinimalBrain = (
   id: backendMinimalBrain.id,
   name: backendMinimalBrain.name,
   role: backendMinimalBrain.rights,
+  ui_properties: backendMinimalBrain.ui_properties
 });

@@ -1,9 +1,7 @@
 from fastapi.middleware.cors import CORSMiddleware
 
 origins = [
-    "http://147.182.142.200",
-    "http://147.182.142.200:3000",
-    "http://147.182.142.200:3001",
+    "https://digitaltwin.educatedapp.com/",
     "https://quivr.app",
     "https://www.quivr.app",
     "http://quivr.app",

@@ -55,7 +55,7 @@ class Brain(Repository):
     def get_user_brains(self, user_id) -> list[MinimalBrainEntity]:
         response = (
             self.db.from_("brains_users")
-            .select("id:brain_id, rights, brains (id: brain_id, name, base_prompt)")
+            .select("id:brain_id, rights, brains (id: brain_id, name, base_prompt, ui_properties)")
             .filter("user_id", "eq", user_id)
             .execute()
         )
@@ -66,6 +66,7 @@ class Brain(Repository):
                     id=item["brains"]["id"],
                     name=item["brains"]["name"],
                     rights=item["rights"],
+                    ui_properties=item["brains"]["ui_properties"]
                 )
             )
             user_brains[-1].rights = item["rights"]
@@ -74,7 +75,7 @@ class Brain(Repository):
     def get_brain_for_user(self, user_id, brain_id) -> MinimalBrainEntity | None:
         response = (
             self.db.from_("brains_users")
-            .select("id:brain_id, rights, brains (id: brain_id, name)")
+            .select("id:brain_id, rights, brains (id: brain_id, name, ui_properties)")
             .filter("user_id", "eq", user_id)
             .filter("brain_id", "eq", brain_id)
             .execute()
@@ -87,6 +88,7 @@ class Brain(Repository):
             id=brain_data["brains"]["id"],
             name=brain_data["brains"]["name"],
             rights=brain_data["rights"],
+            ui_properties=brain_data["brains"]["ui_properties"]
         )
 
     def get_brain_details(self, brain_id):
@@ -190,11 +192,11 @@ class Brain(Repository):
         return BrainEntity(**update_brain_response[0])
     
     def update_brain_base_prompt_by_id(
-        self, brain_id: UUID, base_prompt: str
+        self, brain_id: UUID, base_prompt: str, ui_properties: str
     ) -> BrainEntity | None:
         update_brain_response = (
             self.db.table("brains")
-            .update({"base_prompt": base_prompt})
+            .update({"base_prompt": base_prompt, "ui_properties": ui_properties})
             .match({"brain_id": brain_id})
             .execute()
         ).data
@@ -204,6 +206,19 @@ class Brain(Repository):
 
         return BrainEntity(**update_brain_response[0])
     
+    def get_brain_ui_properties_by_id(self, brain_id: UUID) -> str | None:
+        get_brain_response = (
+            self.db.table("brains")
+            .select("ui_properties")
+            .match({"brain_id": brain_id})
+            .execute()
+        ).data
+
+        if len(get_brain_response) == 0:
+            return None
+        
+        return get_brain_response[0]["ui_properties"]
+
     def get_brain_base_prompt_by_id(self, brain_id: UUID) -> str | None:
         get_brain_response = (
             self.db.table("brains")

@@ -16,7 +16,7 @@ export const App = ({ children }: PropsWithChildren): JSX.Element => {
   const { session } = useSupabase();
 
   // Condition to render NavBar & Footer
-  const renderNavBarFooter = location.pathname !== "/share-brain";
+  const renderNavBarFooter = location.pathname !== "/share-brain" && location.pathname !== "/embed";
 
   useEffect(() => {
     if (renderNavBarFooter) { 
