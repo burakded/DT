@@ -10,7 +10,7 @@ services:
       - "--entrypoints.web.address=:5050"
     ports:
       - "5050:5050"
-      - "8080:8080" # For the Traefik dashboard (optional)
+      - "8081:8081" # For the Traefik dashboard (optional)
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
