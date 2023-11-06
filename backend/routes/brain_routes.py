@@ -116,7 +116,8 @@ async def create_brain_endpoint(
     user_brains = get_user_brains(current_user.id)
     if current_user.email == "test@gmail.com":
         max_brain_per_user = 1
-    max_brain_per_user = BrainRateLimiting().max_brain_per_user
+    else:
+        max_brain_per_user = BrainRateLimiting().max_brain_per_user
 
     if len(user_brains) >= max_brain_per_user:
         raise HTTPException(
