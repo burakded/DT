@@ -105,7 +105,8 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
             void handleSubmit(false); // Trigger form submission
           }}
         >
-          {(openAiKey !== undefined ? paidModels : freeModels).map(
+          {paidModels.map(
+          // {(openAiKey !== undefined ? paidModels : freeModels).map(
             (availableModel) => (
               <option value={availableModel} key={availableModel}>
                 {availableModel}
