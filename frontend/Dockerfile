@@ -1,8 +1,14 @@
 FROM node:18-alpine
 # Install Python and essential build tools
-RUN apk add --update --no-cache python3 make g++ && ln -sf python3 /usr/bin/python
-RUN python3 -m ensurepip
-RUN pip3 install --no-cache --upgrade pip setuptools
+RUN apk update && \
+    apk add --no-cache python3 make g++ && \
+    rm -rf /var/cache/apk/*
+
+# Create a symlink for python if not already set (optional)
+RUN if [ ! -e /usr/bin/python ]; then ln -sf python3 /usr/bin/python ; fi
+
+# Set environment variable for Python3 (may not be needed if symlink is set)
+ENV PYTHON="/usr/bin/python3"
 
 # Create the directory on the node image 
 # where our Next.js app will live
