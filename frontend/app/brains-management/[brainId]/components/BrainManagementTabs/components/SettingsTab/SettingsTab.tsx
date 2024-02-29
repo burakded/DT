@@ -11,7 +11,6 @@ import { Divider } from "@/lib/components/ui/Divider";
 import Field from "@/lib/components/ui/Field";
 import { TextArea } from "@/lib/components/ui/TextArea";
 import {
-  freeModels,
   paidModels,
 } from "@/lib/context/BrainConfigProvider/types";
 import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
@@ -28,7 +27,6 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
   const {
     handleSubmit,
     register,
-    openAiKey,
     temperature,
     maxTokens,
     model,
@@ -106,7 +104,6 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
           }}
         >
           {paidModels.map(
-          // {(openAiKey !== undefined ? paidModels : freeModels).map(
             (availableModel) => (
               <option value={availableModel} key={availableModel}>
                 {availableModel}
