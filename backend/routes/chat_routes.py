@@ -211,7 +211,7 @@ async def create_question_handler(
         or not chat_question.max_tokens
     ):
         # TODO: create ChatConfig class (pick config from brain or user or chat) and use it here
-        chat_question.model = chat_question.model or brain.model or "gpt-3.5-turbo"
+        chat_question.model = chat_question.model or brain.model or "gpt-4o"
         chat_question.temperature = chat_question.temperature or brain.temperature or 0
         chat_question.max_tokens = chat_question.max_tokens or brain.max_tokens or 256
 
@@ -289,7 +289,7 @@ async def create_stream_question_handler(
         or not chat_question.max_tokens
     ):
         # TODO: create ChatConfig class (pick config from brain or user or chat) and use it here
-        chat_question.model = chat_question.model or brain.model or "gpt-3.5-turbo"
+        chat_question.model = chat_question.model or brain.model or "gpt-4o"
         chat_question.temperature = chat_question.temperature or brain.temperature or 0
         chat_question.max_tokens = chat_question.max_tokens or brain.max_tokens or 256
 
@@ -302,7 +302,7 @@ async def create_stream_question_handler(
                 chat_id=str(chat_id),
                 model=(brain_details or chat_question).model
                 if current_user.openai_api_key
-                else "gpt-3.5-turbo",
+                else "gpt-4o",
                 max_tokens=(brain_details or chat_question).max_tokens
                 if current_user.openai_api_key
                 else 0,
@@ -318,7 +318,7 @@ async def create_stream_question_handler(
             gpt_answer_generator = HeadlessQA(
                 model=chat_question.model
                 if current_user.openai_api_key
-                else "gpt-3.5-turbo",
+                else "gpt-4o",
                 temperature=chat_question.temperature
                 if current_user.openai_api_key
                 else 256,
@@ -394,7 +394,7 @@ async def create_stream_share_question_handler(
         or not brain.max_tokens
     ):
         # TODO: create ChatConfig class (pick config from brain or user or chat) and use it here
-        chat_question.model = brain.model or "gpt-3.5-turbo"
+        chat_question.model = brain.model or "gpt-4o"
         chat_question.temperature = brain.temperature or 0
         chat_question.max_tokens = brain.max_tokens or 256
     print(chat_question)
@@ -407,7 +407,7 @@ async def create_stream_share_question_handler(
                 chat_id=str(chat_id),
                 model=(brain_details or chat_question).model
                 if current_user.openai_api_key
-                else "gpt-3.5-turbo",
+                else "gpt-4o",
                 max_tokens=(brain_details or chat_question).max_tokens
                 if current_user.openai_api_key
                 else 0,
@@ -423,7 +423,7 @@ async def create_stream_share_question_handler(
             gpt_answer_generator = HeadlessQA(
                 model=chat_question.model
                 if current_user.openai_api_key
-                else "gpt-3.5-turbo",
+                else "gpt-4o",
                 temperature=chat_question.temperature
                 if current_user.openai_api_key
                 else 256,

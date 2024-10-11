@@ -21,9 +21,9 @@ export type BrainConfigContextType = {
   resetConfig: () => void;
 };
 
-export const openAiFreeModels = ["gpt-3.5-turbo", "gpt-3.5-turbo-16k"] as const;
+export const openAiFreeModels = ["gpt-4o, gpt-4"] as const;
 
-export const openAiPaidModels = [...openAiFreeModels, "gpt-4"] as const;
+export const openAiPaidModels = [...openAiFreeModels, "gpt-4-turbo"] as const;
 
 export const anthropicModels = [
   // "claude-v1",
