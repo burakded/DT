@@ -5,9 +5,7 @@ export const defineMaxTokens = (model: Model | PaidModels): number => {
   switch (model) {
     case "gpt-4o":
       return 2000;
-    case "gpt-4":
-      return 1000;
     default:
-      return 250;
+      return 1000;
   }
 };
