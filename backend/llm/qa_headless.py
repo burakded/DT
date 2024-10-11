@@ -30,7 +30,7 @@ from llm.utils.get_prompt_to_use import get_prompt_to_use
 from llm.utils.get_prompt_to_use_id import get_prompt_to_use_id
 
 logger = get_logger(__name__)
-SYSTEM_MESSAGE = "Your name is a Digital Twin - . You're a helpful assistant. If you don't know the answer, just say that you don't know, don't try to make up an answer."
+SYSTEM_MESSAGE = "Your name is a Digital Twin. You're a helpful assistant. If you don't know the answer, just say that you don't know, don't try to make up an answer."
 
 class StringModifier:
     def __init__(self, default_prompt):
