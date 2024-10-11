@@ -14,6 +14,9 @@ COPY ./requirements.txt .
 # Increase timeout might not be necessary but is retained as in original
 RUN pip install --no-cache-dir -r requirements.txt --timeout 100
 
+# Install lxml with html_clean and lxml_html_clean
+RUN pip install lxml[html_clean] lxml_html_clean
+
 # Copy the rest of the application
 COPY . .
 
