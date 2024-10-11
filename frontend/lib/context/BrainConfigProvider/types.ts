@@ -23,7 +23,7 @@ export type BrainConfigContextType = {
 
 export const openAiFreeModels = ["gpt-4o, gpt-4"] as const;
 
-export const openAiPaidModels = [...openAiFreeModels, "gpt-4-turbo"] as const;
+export const openAiPaidModels = [...openAiFreeModels, "gpt-4o"] as const;
 
 export const anthropicModels = [
   // "claude-v1",
