@@ -34,7 +34,7 @@ export const Slides = ({ setIsModalOpen }: SlidesProps): JSX.Element => {
   };
 
   const slideTitles = [
-    "Quadrant 11. Personal information",
+    "Quadrant 1. Personal Information",
     "Quadrant 2. Professional information",
     "Quadrant 3. Thought Leadership",
     "Quadrant 4. Legacy",
