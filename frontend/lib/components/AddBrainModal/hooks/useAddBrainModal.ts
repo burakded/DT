@@ -9,7 +9,12 @@ import { usePromptApi } from "@/lib/api/prompt/usePromptApi";
 import { useBrainConfig } from "@/lib/context/BrainConfigProvider";
 import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
 import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
-import { useToast } from "@/lib/hooks";
+import { useToast, useFetch } from "@/lib/hooks";
+
+interface Voice {
+  name: string;
+  voice_id: string;
+}
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const useAddBrainModal = () => {
@@ -21,6 +26,7 @@ export const useAddBrainModal = () => {
   const { createPrompt } = usePromptApi();
   const [isShareModalOpen, setIsShareModalOpen] = useState(false);
   const { config } = useBrainConfig();
+  const { fetchInstance } = useFetch();
   const defaultValues = {
     ...config,
     name: "",
@@ -40,7 +46,8 @@ export const useAddBrainModal = () => {
   const model = watch("model");
   const temperature = watch("temperature");
   const maxTokens = watch("maxTokens");
-
+  const voices = watch("voices")
+  const voicesName = watch("voicesName")
   useEffect(() => {
     setValue("maxTokens", Math.min(maxTokens, defineMaxTokens(model)));
   }, [maxTokens, model, setValue]);
@@ -85,6 +92,28 @@ export const useAddBrainModal = () => {
 
         return;
       }
+
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const brainData = {
+        brain_id: createdBrainId,
+        name: voicesName || "Burak",
+        voice_id: voices || "OgdkMvO79FR6nRGBcFek",
+      };
+      try{
+      const response = await fetchInstance.post(
+        `/api/elevenlabs/brain`,
+        JSON.stringify(brainData)
+      );
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.status} ${response.statusText}`);
+      }      
+    } catch (error) {
+      console.error("Error inserting in elevenlabs:", error);
+    }
+  
 
       setActiveBrain({
         id: createdBrainId,
@@ -151,5 +180,7 @@ export const useAddBrainModal = () => {
     maxTokens,
     isPending,
     pickPublicPrompt,
+    voices,
+    voicesName
   };
 };

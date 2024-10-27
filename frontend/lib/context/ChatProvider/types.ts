@@ -6,6 +6,8 @@ export type ChatConfig = {
   model?: Model;
   temperature?: number;
   maxTokens?: number;
+  voices?: string;
+  voicesName?: string
 };
 
 export type ChatContextProps = {

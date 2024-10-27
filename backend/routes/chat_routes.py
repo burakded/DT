@@ -32,7 +32,10 @@ from repository.chat import (
     update_chat,
 )
 from repository.user_identity import get_user_identity
+from supabase import create_client, Client
 
+import google.generativeai as genai
+import anthropic
 chat_router = APIRouter()
 
 
@@ -266,43 +269,70 @@ async def create_stream_question_handler(
     current_user: UserIdentity = Depends(get_current_user),
 ) -> StreamingResponse:
     # TODO: check if the user has access to the brain
-
     # Retrieve user's OpenAI API key
-    current_user.openai_api_key = request.headers.get("Openai-Api-Key")
-    brain = Brain(id=brain_id)
-    brain_details: BrainEntity | None = None
-    if not current_user.openai_api_key and brain_id:
-        brain_details = get_brain_details(brain_id)
-        if brain_details:
-            current_user.openai_api_key = brain_details.openai_api_key
-
-    if not current_user.openai_api_key:
-        user_identity = get_user_identity(current_user.id)
-
-        if user_identity is not None:
-            current_user.openai_api_key = user_identity.openai_api_key
-
-    # Retrieve chat model (temperature, max_tokens, model)
-    if (
-        not chat_question.model
-        or chat_question.temperature is None
-        or not chat_question.max_tokens
-    ):
-        # TODO: create ChatConfig class (pick config from brain or user or chat) and use it here
-        chat_question.model = chat_question.model or brain.model or "gpt-4o"
-        chat_question.temperature = chat_question.temperature or brain.temperature or 0
-        chat_question.max_tokens = chat_question.max_tokens or brain.max_tokens or 256
-
     try:
+        SUPABASE_URL = os.getenv("SUPABASE_URL")
+        SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
+        GEMINI_KEY = os.getenv("GEMINI_KEY")
+        CLAUDE_KEY = os.getenv("CLAUDE_KEY")
+        current_user.openai_api_key = request.headers.get("Openai-Api-Key")
+        supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
+        brain = supabase.table("brains").select("*").eq("brain_id", brain_id).execute()
+        brain=brain.data[0]
+        brain_details: BrainEntity | None = None
+        if not current_user.openai_api_key and brain_id:
+            brain_details = get_brain_details(brain_id)
+            if brain_details:
+                current_user.openai_api_key = brain_details.openai_api_key
+        if not current_user.openai_api_key:
+            user_identity = get_user_identity(current_user.id)
+
+            if user_identity is not None:
+                current_user.openai_api_key = user_identity.openai_api_key
+
+        # Retrieve chat model (temperature, max_tokens, model)
+        if (
+            not chat_question.model
+            or chat_question.temperature is None
+            or not chat_question.max_tokens
+        ):
+            # TODO: create ChatConfig class (pick config from brain or user or chat) and use it here
+            chat_question.model = chat_question.model or brain["model"] or "gpt-4o"
+            chat_question.temperature = chat_question.temperature or brain["temperature"] or 0
+            chat_question.max_tokens = chat_question.max_tokens or brain["max_tokens"] or 256
+
         logger.info(f"Streaming request for {chat_question.model}")
         check_user_requests_limit(current_user)
         gpt_answer_generator: HeadlessQA | OpenAIBrainPicking
+        selected_model = "gpt-4o"
+        selected_model = (
+            (brain_details or chat_question).model
+            if current_user.openai_api_key
+            else "gpt-4o"
+        )
+
+        if selected_model =="Gemini" or selected_model == "Claude":
+            if selected_model == "Gemini":
+                genai.configure(api_key=GEMINI_KEY)
+                model = genai.GenerativeModel('gemini-1.5-flash')
+                response = model.generate_content("hello" or chat_question.question)
+            elif selected_model == "Claude":
+                client = anthropic.Anthropic(api_key=CLAUDE_KEY,)
+                message = client.messages.create(
+                    model="claude-3-5-sonnet-20241022",
+                    max_tokens=1024,
+                    messages=[
+                        {"role": "user", "content": "Hello" or chat_question.question}
+                    ]
+                )
+            chat_question.model = "gpt-4o" or selected_model
+            selected_model = "gpt-4o" or selected_model
+
+
         if brain_id:
             gpt_answer_generator = OpenAIBrainPicking(
                 chat_id=str(chat_id),
-                model=(brain_details or chat_question).model
-                if current_user.openai_api_key
-                else "gpt-4o",
+                model=selected_model,
                 max_tokens=(brain_details or chat_question).max_tokens
                 if current_user.openai_api_key
                 else 0,
@@ -316,9 +346,7 @@ async def create_stream_question_handler(
             )
         else:
             gpt_answer_generator = HeadlessQA(
-                model=chat_question.model
-                if current_user.openai_api_key
-                else "gpt-4o",
+                model=selected_model,
                 temperature=chat_question.temperature
                 if current_user.openai_api_key
                 else 256,
@@ -330,8 +358,6 @@ async def create_stream_question_handler(
                 streaming=True,
                 prompt_id=chat_question.prompt_id,
             )
-
-        print("streaming")
         return StreamingResponse(
             gpt_answer_generator.generate_stream(chat_id, chat_question),
             media_type="text/event-stream",
@@ -397,7 +423,6 @@ async def create_stream_share_question_handler(
         chat_question.model = brain.model or "gpt-4o"
         chat_question.temperature = brain.temperature or 0
         chat_question.max_tokens = brain.max_tokens or 256
-    print(chat_question)
     try:
         logger.info(f"Streaming request for {chat_question.model}")
         # check_user_requests_limit(current_user)
@@ -436,7 +461,6 @@ async def create_stream_share_question_handler(
                 prompt_id=chat_question.prompt_id,
             )
 
-        print("streaming")
         return StreamingResponse(
             gpt_answer_generator.generate_stream(chat_id, chat_question),
             media_type="text/event-stream",

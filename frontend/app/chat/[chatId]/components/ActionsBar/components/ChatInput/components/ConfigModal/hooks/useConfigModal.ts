@@ -30,6 +30,8 @@ export const useConfigModal = (chatId?: string) => {
   const model = watch("model");
   const temperature = watch("temperature");
   const maxTokens = watch("maxTokens");
+  const voices = watch("voices")
+  const voicesName = watch("voicesName")
 
   useEffect(() => {
     const fetchChatConfig = async () => {
@@ -42,6 +44,8 @@ export const useConfigModal = (chatId?: string) => {
         setValue("model", chatConfig.model);
         setValue("temperature", chatConfig.temperature);
         setValue("maxTokens", chatConfig.maxTokens);
+        setValue("voices",chatConfig.voices || "OgdkMvO79FR6nRGBcFek")
+        setValue("voicesName",chatConfig.voicesName || "Burak")
       } else {
         if (currentBrain === undefined) {
           return;
@@ -59,6 +63,16 @@ export const useConfigModal = (chatId?: string) => {
         setValue(
           "maxTokens",
           relatedBrainConfig.max_tokens ?? config.maxTokens
+        );
+
+        setValue(
+          "voices",
+          relatedBrainConfig.voices ?? config.voices
+        );
+
+        setValue(
+          "voicesName",
+          relatedBrainConfig.voicesName ?? config.voicesName
         );
       }
     };
@@ -83,6 +97,8 @@ export const useConfigModal = (chatId?: string) => {
         maxTokens,
         model,
         temperature,
+        voices,
+        voicesName
       });
 
       publish({
@@ -105,5 +121,7 @@ export const useConfigModal = (chatId?: string) => {
     model,
     temperature,
     maxTokens,
+    voices,
+    voicesName
   };
 };

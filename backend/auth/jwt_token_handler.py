@@ -5,6 +5,8 @@ from typing import Optional
 from jose import jwt
 from jose.exceptions import JWTError
 from models import UserIdentity
+from dotenv import load_dotenv
+load_dotenv()
 
 SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 ALGORITHM = "HS256"

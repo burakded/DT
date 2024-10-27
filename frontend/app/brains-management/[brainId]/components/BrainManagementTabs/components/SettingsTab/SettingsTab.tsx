@@ -17,13 +17,26 @@ import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
 
 // import { PublicPrompts } from "./components/PublicPrompts/PublicPrompts";
 import { useSettingsTab } from "./hooks/useSettingsTab";
+import { useState,useEffect } from 'react';
+import { useFetch, useToast } from "@/lib/hooks";
+interface Voice {
+  name: string;
+  voice_id: string;
+}
 
 type SettingsTabProps = {
   brainId: UUID;
+  selectedElevenLabsvoice: {
+    brain_id: string;
+    name: string;
+    voice_id: string;
+  };
 };
 
-export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
+export const SettingsTab = ({ brainId, selectedElevenLabsvoice }: SettingsTabProps): JSX.Element => {
   const { t } = useTranslation(["translation", "brain", "config"]);
+  const { fetchInstance } = useFetch();
+  const [selectedElevenLabsvoice1, setSelectedElevenLabsvoice] = useState({ brain_id: '', name: '', voice_id: '' });
   const {
     handleSubmit,
     register,
@@ -36,9 +49,59 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
     isDefaultBrain,
     formRef,
     promptId,
+    getValues,
     // pickPublicPrompt,
     removeBrainPrompt,
   } = useSettingsTab({ brainId });
+  const [elevenLabsVoices, setElevenLabsVoices] = useState<Voice[]>([]);
+  useEffect(()  => {
+    const fetchVoices = async () => {
+      await elevenLabsVoicesList();
+    };
+    if(selectedElevenLabsvoice.name!="")
+    fetchVoices();
+  }, [selectedElevenLabsvoice]);
+
+  const elevenLabsVoicesList = async (
+  ): Promise<void> => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/elevenlabs/voices`, {
+        method: 'GET',
+        headers: headers,
+      });
+      const data = await response.json();
+      setElevenLabsVoices(data.voices)
+     
+          register("voices", { value: selectedElevenLabsvoice.voice_id || "" });
+          register("voicesName", {value: selectedElevenLabsvoice.name || " "})
+          setSelectedElevenLabsvoice({
+            brain_id: selectedElevenLabsvoice.brain_id,
+            name: selectedElevenLabsvoice.name,
+            voice_id: selectedElevenLabsvoice.voice_id || "",
+          });
+        
+      
+    } catch (error) {
+      console.log(error)
+      }
+    }
+
+    const handleVoiceSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const selectedVoiceName = event.target.value;
+      const selectedVoiceId = event.target.options[event.target.selectedIndex].getAttribute('data-voiceid');
+    
+      register("voices", { value: selectedVoiceId || "" });
+      register("voicesName", { value: selectedVoiceName || "" });
+      setSelectedElevenLabsvoice({
+        brain_id: selectedElevenLabsvoice.brain_id,
+        name: event.target.value,
+        voice_id: selectedVoiceId || "",
+      });
+    };
+
 
   return (
     <form
@@ -112,6 +175,24 @@ export const SettingsTab = ({ brainId }: SettingsTabProps): JSX.Element => {
           )}
         </select>
       </fieldset>
+      <fieldset className="w-full flex flex-col">
+          <label className="flex-1 text-sm" htmlFor="voicesName">
+            ElevenLabs Voices
+          </label>
+          <select
+            id="voicesName"
+            {...register("voicesName")}
+            value={selectedElevenLabsvoice1.name || ""}
+            onChange={(e) => handleVoiceSelect(e)}
+            className="px-5 py-2 dark:bg-gray-700 bg-gray-200 rounded-md"
+          >
+            {elevenLabsVoices.map((voice) => (
+              <option value={voice.name} key={voice.voice_id} data-voiceid={voice.voice_id}>
+                {voice.name}
+              </option>
+            ))}
+          </select>
+        </fieldset>
       <fieldset className="w-full flex mt-4">
         <label className="flex-1" htmlFor="temp">
           {t("temperature", { ns: "config" })}: {temperature}

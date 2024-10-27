@@ -18,6 +18,8 @@ export type Brain = {
   description?: string;
   prompt_id?: string | null;
   ui_properties?: string;
+  voices?: string;
+  voicesName?: string
 };
 
 export type MinimalBrainForUser = {
@@ -26,6 +28,12 @@ export type MinimalBrainForUser = {
   role: BrainRoleType;
   ui_properties: string;
 };
+
+export type MinimalElevenLabsVoices = {
+  brainId: string;
+  name: string;
+  voiceId: string
+}
 
 export type MinimalBrainWithShareForUser = {
   userId: string;

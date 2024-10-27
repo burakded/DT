@@ -16,7 +16,12 @@ import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
 import { useAddBrainModal } from "./hooks/useAddBrainModal";
 // import { Divider } from "../ui/Divider";
 import { TextArea } from "../ui/TextArea";
-
+import { useFetch, useToast } from "@/lib/hooks";
+import { useState,useEffect } from 'react';
+interface Voice {
+  name: string;
+  voice_id: string;
+}
 export const AddBrainModal = (): JSX.Element => {
   const { t } = useTranslation(["translation", "brain", "config"]);
   const {
@@ -29,8 +34,44 @@ export const AddBrainModal = (): JSX.Element => {
     maxTokens,
     model,
     isPending,
+    voices,
+    voicesName
     // pickPublicPrompt,
   } = useAddBrainModal();
+
+  const { fetchInstance } = useFetch();
+  const [elevenLabsVoices, setElevenLabsVoices] = useState<Voice[]>([]);
+  useEffect(()  => {
+    const fetchVoices = async () => {
+      await elevenLabsVoicesList();
+    };
+  
+    fetchVoices();
+  }, []);
+
+  const elevenLabsVoicesList = async (
+  ): Promise<void> => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    console.log("Calling API...");
+    try {
+      const response = await fetchInstance.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/elevenlabs/voices`, headers);
+      const data = await response.json();
+      setElevenLabsVoices(data.voices)
+      register("voices", { value: data.voices[0].voice_id || "" });
+      register("voicesName", {value: data.voices[0].voicesName || " "})
+    } catch (error) {
+      console.log(error)
+      }
+    }
+
+    const handleVoiceSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const selectedVoiceName = event.target.value;
+      const selectedVoiceId = event.target.options[event.target.selectedIndex].getAttribute('data-voiceid');
+    
+      register("voices", { value: selectedVoiceId || "" });
+    };
 
   return (
     <Modal
@@ -72,11 +113,28 @@ export const AddBrainModal = (): JSX.Element => {
 
         <Field
           label={t("openAiKeyLabel", { ns: "config" })}
-          placeholder={t("openAiKeyPlaceholder", { ns: "config" })}
           autoComplete="off"
           className="flex-1"
           {...register("openAiKey")}
         />
+
+        <fieldset className="w-full flex flex-col">
+          <label className="flex-1 text-sm" htmlFor="voicesName">
+            ElevenLabs Voices
+          </label>
+          <select
+            id="voicesName"
+            {...register("voicesName")}
+            onChange={(e) => handleVoiceSelect(e)}
+            className="px-5 py-2 dark:bg-gray-700 bg-gray-200 rounded-md"
+          >
+            {elevenLabsVoices.map((voice) => (
+              <option value={voice.name} key={voice.voice_id} data-voiceid={voice.voice_id}>
+                {voice.name}
+              </option>
+            ))}
+          </select>
+        </fieldset>
 
         <fieldset className="w-full flex flex-col">
           <label className="flex-1 text-sm" htmlFor="model">

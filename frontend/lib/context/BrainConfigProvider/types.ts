@@ -11,6 +11,8 @@ export type BrainConfig = {
   supabaseUrl?: string;
   supabaseKey?: string;
   prompt_id?: UUID;
+  voices?: string;
+  voicesName?: string
 };
 
 type OptionalConfig = { [K in keyof BrainConfig]?: BrainConfig[K] | undefined };
@@ -21,9 +23,9 @@ export type BrainConfigContextType = {
   resetConfig: () => void;
 };
 
-export const openAiFreeModels = ["gpt-4o"] as const;
+export const openAiFreeModels = ["gpt-4o","gpt-4-turbo","gpt-3.5-turbo","gpt-3.5-turbo-16k","gpt-4","Gemini","Claude"] as const;
 
-export const openAiPaidModels = [...openAiFreeModels, "gpt-4o"] as const;
+export const openAiPaidModels = [...openAiFreeModels] as const;
 
 export const anthropicModels = [
   // "claude-v1",

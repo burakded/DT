@@ -335,5 +335,6 @@ export const useSettingsTab = ({ brainId }: UseSettingsTabProps) => {
     promptId,
     removeBrainPrompt,
     pickPublicPrompt,
+    getValues
   };
 };

@@ -1,12 +1,17 @@
-/* eslint-disable max-lines */
 import { MdCheck, MdSettings } from "react-icons/md";
-
 import Button from "@/lib/components/ui/Button";
 import { Modal } from "@/lib/components/ui/Modal";
 import { freeModels } from "@/lib/context/BrainConfigProvider/types";
 import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
 
 import { useConfigModal } from "./hooks/useConfigModal";
+import { useFetch, useToast } from "@/lib/hooks";
+import { useState, useEffect } from "react";
+
+interface Voice {
+  name: string;
+  voice_id: string;
+}
 
 export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
   const {
@@ -18,6 +23,29 @@ export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
     maxTokens,
     model,
   } = useConfigModal(chatId);
+  const { fetchInstance } = useFetch();
+  const [elevenLabsVoices, setElevenLabsVoices] = useState<Voice[]>([]);
+
+  useEffect(() => {
+    const fetchVoices = async () => {
+      await elevenLabsVoicesList();
+    };
+
+    fetchVoices();
+  }, []);
+
+  const elevenLabsVoicesList = async (): Promise<void> => {
+    const headers = {
+      "Content-Type": "application/json",
+    };
+    try {
+      const response = await fetchInstance.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/elevenlabs/voices`, headers);
+      const data = await response.json();
+      setElevenLabsVoices(data.voices);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   if (chatId === undefined) {
     return <div />;
@@ -59,6 +87,23 @@ export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
             {freeModels.map((availableModel) => (
               <option value={availableModel} key={availableModel}>
                 {availableModel}
+              </option>
+            ))}
+          </select>
+        </fieldset>
+
+        <fieldset className="w-full flex flex-col">
+          <label className="flex-1 text-sm" htmlFor="voicesName">
+          ElevenLabs Voices
+          </label>
+          <select
+            id="voicesName"
+            {...register("voicesName")}
+            className="px-5 py-2 dark:bg-gray-700 bg-gray-200 rounded-md"
+          >
+            {elevenLabsVoices.map((voice) => (
+              <option value={voice.name} key={voice.voice_id}>
+                {voice.name}
               </option>
             ))}
           </select>
