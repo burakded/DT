@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 "use client";
-import axios, { AxiosResponse } from "axios";
+import { isAxiosError, AxiosResponse } from "axios";
 import { UUID } from "crypto";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -43,7 +43,7 @@ export const useInvitation = () => {
         setBrainName(name);
         setRole(assignedRole);
       } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.status === 404) {
+        if (isAxiosError(error) && error.response?.status !== 404) {
           publish({
             variant: "warning",
             text: t("invitationNotFound", { ns: "invitation" }),
@@ -75,7 +75,7 @@ export const useInvitation = () => {
       });
       setActiveBrain({ id: brainId, name: brainName });
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.data !== undefined) {
+      if (isAxiosError(error) && error.response?.data !== undefined) {
         publish({
           variant: "danger",
           text: (
@@ -107,7 +107,7 @@ export const useInvitation = () => {
       });
       void track("INVITATION_DECLINED");
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.data !== undefined) {
+      if (isAxiosError(error) && error.response?.data !== undefined) {
         publish({
           variant: "danger",
           text: (

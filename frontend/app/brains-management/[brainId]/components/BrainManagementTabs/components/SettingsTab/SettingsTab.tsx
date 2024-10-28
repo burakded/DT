@@ -10,28 +10,30 @@ import Button from "@/lib/components/ui/Button";
 import { Divider } from "@/lib/components/ui/Divider";
 import Field from "@/lib/components/ui/Field";
 import { TextArea } from "@/lib/components/ui/TextArea";
-import {
-  paidModels,
-} from "@/lib/context/BrainConfigProvider/types";
+import { paidModels } from "@/lib/context/BrainConfigProvider/types";
 import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
-
-// import { PublicPrompts } from "./components/PublicPrompts/PublicPrompts";
 import { useSettingsTab } from "./hooks/useSettingsTab";
-import { useState,useEffect } from 'react';
-import { useFetch, useToast } from "@/lib/hooks";
+import { useState, useEffect } from 'react';
+import { useFetch } from "@/lib/hooks";
+
 interface Voice {
   name: string;
   voice_id: string;
 }
 
+
+interface ElevenLabsResponse {
+  voices: Voice[];
+}
 type SettingsTabProps = {
   brainId: UUID;
   selectedElevenLabsvoice: {
     brain_id: string;
     name: string;
     voice_id: string;
-  };
+  } | null; // Allow null here
 };
+
 
 export const SettingsTab = ({ brainId, selectedElevenLabsvoice }: SettingsTabProps): JSX.Element => {
   const { t } = useTranslation(["translation", "brain", "config"]);
@@ -50,20 +52,25 @@ export const SettingsTab = ({ brainId, selectedElevenLabsvoice }: SettingsTabPro
     formRef,
     promptId,
     getValues,
-    // pickPublicPrompt,
     removeBrainPrompt,
   } = useSettingsTab({ brainId });
   const [elevenLabsVoices, setElevenLabsVoices] = useState<Voice[]>([]);
-  useEffect(()  => {
+
+  useEffect(() => {
     const fetchVoices = async () => {
-      await elevenLabsVoicesList();
+      try {
+        await elevenLabsVoicesList();
+      } catch (error) {
+        console.error("Error fetching Eleven Labs voices:", error);
+      }
     };
-    if(selectedElevenLabsvoice.name!="")
-    fetchVoices();
+
+    if (selectedElevenLabsvoice?.name) { // Check if selectedElevenLabsvoice is not null
+     void fetchVoices();
+    }
   }, [selectedElevenLabsvoice]);
 
-  const elevenLabsVoicesList = async (
-  ): Promise<void> => {
+  const elevenLabsVoicesList = async (): Promise<void> => {
     const headers = {
       "Content-Type": "application/json",
     };
@@ -72,36 +79,36 @@ export const SettingsTab = ({ brainId, selectedElevenLabsvoice }: SettingsTabPro
         method: 'GET',
         headers: headers,
       });
-      const data = await response.json();
-      setElevenLabsVoices(data.voices)
-     
-          register("voices", { value: selectedElevenLabsvoice.voice_id || "" });
-          register("voicesName", {value: selectedElevenLabsvoice.name || " "})
-          setSelectedElevenLabsvoice({
-            brain_id: selectedElevenLabsvoice.brain_id,
-            name: selectedElevenLabsvoice.name,
-            voice_id: selectedElevenLabsvoice.voice_id || "",
-          });
-        
+      const data = (await response.json()) as ElevenLabsResponse;
+      setElevenLabsVoices(data.voices);
+      
+      if (selectedElevenLabsvoice) { // Check for null
+        register("voices", { value: selectedElevenLabsvoice.voice_id || "" });
+        register("voicesName", { value: selectedElevenLabsvoice.name || "" });
+        setSelectedElevenLabsvoice({
+          brain_id: selectedElevenLabsvoice.brain_id,
+          name: selectedElevenLabsvoice.name,
+          voice_id: selectedElevenLabsvoice.voice_id || "",
+        });
+      }
       
     } catch (error) {
-      console.log(error)
-      }
+      console.log(error);
     }
+  }
 
-    const handleVoiceSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
-      const selectedVoiceName = event.target.value;
-      const selectedVoiceId = event.target.options[event.target.selectedIndex].getAttribute('data-voiceid');
-    
-      register("voices", { value: selectedVoiceId || "" });
-      register("voicesName", { value: selectedVoiceName || "" });
-      setSelectedElevenLabsvoice({
-        brain_id: selectedElevenLabsvoice.brain_id,
-        name: event.target.value,
-        voice_id: selectedVoiceId || "",
-      });
-    };
+  const handleVoiceSelect = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedVoiceName = event.target.value;
+    const selectedVoiceId = event.target.options[event.target.selectedIndex].getAttribute('data-voiceid');
 
+    register("voices", { value: selectedVoiceId || "" });
+    register("voicesName", { value: selectedVoiceName || "" });
+    setSelectedElevenLabsvoice({
+      brain_id: selectedElevenLabsvoice ? selectedElevenLabsvoice.brain_id : '',
+      name: selectedVoiceName,
+      voice_id: selectedVoiceId || "",
+    });
+  };
 
   return (
     <form
@@ -115,7 +122,7 @@ export const SettingsTab = ({ brainId, selectedElevenLabsvoice }: SettingsTabPro
       <div className="flex flex-row flex-1 justify-between w-full">
         <div>
           <Field
-            label={ t("brainName", { ns: "brain" })}
+            label={t("brainName", { ns: "brain" })}
             placeholder={t("brainNamePlaceholder", { ns: "brain" })}
             autoComplete="off"
             className="flex-1"
@@ -124,7 +131,7 @@ export const SettingsTab = ({ brainId, selectedElevenLabsvoice }: SettingsTabPro
         </div>
         <div className="mt-4">
           {isDefaultBrain ? (
-            <div className="border rounded-lg border-dashed border-black dark:border-white bg-white dark:bg-black text-black dark:text-white focus:bg-black dark:focus:bg-white dark dark focus:text-white dark:focus:text-black transition-colors py-2 px-4 shadow-none">
+            <div className="border rounded-lg border-dashed border-black dark:border-white bg-white dark:bg-black text-black dark:text-white focus:bg-black dark:focus:bg-white transition-colors py-2 px-4 shadow-none">
               {t("defaultBrain", { ns: "brain" })}
             </div>
           ) : (
@@ -166,33 +173,31 @@ export const SettingsTab = ({ brainId, selectedElevenLabsvoice }: SettingsTabPro
             void handleSubmit(false); // Trigger form submission
           }}
         >
-          {paidModels.map(
-            (availableModel) => (
-              <option value={availableModel} key={availableModel}>
-                {availableModel}
-              </option>
-            )
-          )}
+          {paidModels.map((availableModel) => (
+            <option value={availableModel} key={availableModel}>
+              {availableModel}
+            </option>
+          ))}
         </select>
       </fieldset>
       <fieldset className="w-full flex flex-col">
-          <label className="flex-1 text-sm" htmlFor="voicesName">
-            ElevenLabs Voices
-          </label>
-          <select
-            id="voicesName"
-            {...register("voicesName")}
-            value={selectedElevenLabsvoice1.name || ""}
-            onChange={(e) => handleVoiceSelect(e)}
-            className="px-5 py-2 dark:bg-gray-700 bg-gray-200 rounded-md"
-          >
-            {elevenLabsVoices.map((voice) => (
-              <option value={voice.name} key={voice.voice_id} data-voiceid={voice.voice_id}>
-                {voice.name}
-              </option>
-            ))}
-          </select>
-        </fieldset>
+        <label className="flex-1 text-sm" htmlFor="voicesName">
+          ElevenLabs Voices
+        </label>
+        <select
+          id="voicesName"
+          {...register("voicesName")}
+          value={selectedElevenLabsvoice1.name || ""}
+          onChange={handleVoiceSelect}
+          className="px-5 py-2 dark:bg-gray-700 bg-gray-200 rounded-md"
+        >
+          {elevenLabsVoices.map((voice) => (
+            <option value={voice.name} key={voice.voice_id} data-voiceid={voice.voice_id}>
+              {voice.name}
+            </option>
+          ))}
+        </select>
+      </fieldset>
       <fieldset className="w-full flex mt-4">
         <label className="flex-1" htmlFor="temp">
           {t("temperature", { ns: "config" })}: {temperature}
@@ -219,22 +224,6 @@ export const SettingsTab = ({ brainId, selectedElevenLabsvoice }: SettingsTabPro
           {...register("maxTokens")}
         />
       </fieldset>
-      {/* <Divider text={t("customPromptSection", { ns: "config" })} />
-      <PublicPrompts onSelect={pickPublicPrompt} />
-      <Field
-        label={t("promptName", { ns: "config" })}
-        placeholder={t("promptNamePlaceholder", { ns: "config" })}
-        autoComplete="off"
-        className="flex-1"
-        {...register("prompt.title")}
-      />
-      <TextArea
-        label={t("promptContent", { ns: "config" })}
-        placeholder={t("promptContentPlaceholder", { ns: "config" })}
-        autoComplete="off"
-        className="flex-1"
-        {...register("prompt.content")}
-      /> */}
       {promptId !== "" && (
         <Button disabled={isUpdating} onClick={() => void removeBrainPrompt()}>
           {t("removePrompt", { ns: "config" })}

@@ -1,6 +1,6 @@
 /* eslint-disable complexity */
 /* eslint-disable max-lines */
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { UUID } from "crypto";
 import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -147,7 +147,7 @@ export const useSettingsTab = ({ brainId }: UseSettingsTabProps) => {
       void fetchAllBrains();
       void fetchDefaultBrain();
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 429) {
+      if (isAxiosError(err) && err.response?.status === 429) {
         publish({
           variant: "danger",
           text: `${JSON.stringify(
@@ -283,7 +283,7 @@ export const useSettingsTab = ({ brainId }: UseSettingsTabProps) => {
       });
       void fetchAllBrains();
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 429) {
+      if (isAxiosError(err) && err.response?.status === 429) {
         publish({
           variant: "danger",
           text: `${JSON.stringify(

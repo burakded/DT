@@ -3,7 +3,6 @@ import Button from "@/lib/components/ui/Button";
 import { Modal } from "@/lib/components/ui/Modal";
 import { freeModels } from "@/lib/context/BrainConfigProvider/types";
 import { defineMaxTokens } from "@/lib/helpers/defineMaxTokens";
-
 import { useConfigModal } from "./hooks/useConfigModal";
 import { useFetch, useToast } from "@/lib/hooks";
 import { useState, useEffect } from "react";
@@ -11,6 +10,10 @@ import { useState, useEffect } from "react";
 interface Voice {
   name: string;
   voice_id: string;
+}
+
+interface ElevenLabsResponse {
+  voices: Voice[];
 }
 
 export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
@@ -28,10 +31,14 @@ export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
 
   useEffect(() => {
     const fetchVoices = async () => {
-      await elevenLabsVoicesList();
+      try {
+        await elevenLabsVoicesList();
+      } catch (error) {
+        console.error("Error fetching Eleven Labs voices:", error);
+      }
     };
 
-    fetchVoices();
+    void fetchVoices();
   }, []);
 
   const elevenLabsVoicesList = async (): Promise<void> => {
@@ -40,10 +47,10 @@ export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
     };
     try {
       const response = await fetchInstance.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/elevenlabs/voices`, headers);
-      const data = await response.json();
+      const data = (await response.json()) as ElevenLabsResponse;
       setElevenLabsVoices(data.voices);
     } catch (error) {
-      console.log(error);
+      console.error("Failed to fetch voices:", error);
     }
   };
 
@@ -94,7 +101,7 @@ export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
 
         <fieldset className="w-full flex flex-col">
           <label className="flex-1 text-sm" htmlFor="voicesName">
-          ElevenLabs Voices
+            ElevenLabs Voices
           </label>
           <select
             id="voicesName"

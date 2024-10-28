@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import {isAxiosError, AxiosResponse } from "axios";
 import { useState } from "react";
 import { useTranslation } from 'react-i18next'
 
@@ -36,7 +36,7 @@ export const useBrainUser = ({
       publish({ variant: "success", text: t('userRoleUpdated', { email: email, role: newRole, ns: 'brain' }) });
       void fetchBrainUsers();
     } catch (e) {
-      if (axios.isAxiosError(e) && e.response?.status === 403) {
+      if (isAxiosError(e) && e.response?.status === 403) {
         publish({
           variant: "danger",
           text: `${JSON.stringify(
@@ -68,7 +68,7 @@ export const useBrainUser = ({
       });
       void fetchBrainUsers();
     } catch (e) {
-      if (axios.isAxiosError(e) && e.response?.data !== undefined) {
+      if (isAxiosError(e) && e.response?.data !== undefined) {
         publish({
           variant: "danger",
           text: (

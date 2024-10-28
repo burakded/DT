@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { useTranslation } from "react-i18next";
 
 // import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
@@ -83,7 +83,7 @@ export const useQuestion = (): UseChatService => {
       console.log("receivedResponse=================================================", response);
       await handleStream(response.body.getReader());
     } catch (error) {
-      if (axios.isAxiosError(error) && error.response?.status === 429) {
+      if (isAxiosError(error) && error.response?.status === 429) {
         publish({
           variant: "danger",
           text: t("tooManyRequests", { ns: "chat" }),

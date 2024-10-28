@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { UUID } from "crypto";
 import { useCallback, useState } from "react";
 import { FileRejection, useDropzone } from "react-dropzone";
@@ -43,7 +43,7 @@ export const useFileUploader = () => {
               : t("error", { message: response.data.message, ns: "upload" }),
         });
       } catch (e: unknown) {
-        if (axios.isAxiosError(e) && e.response?.status === 403) {
+        if (isAxiosError(e) && e.response?.status === 403) {
           publish({
             variant: "danger",
             text: `${JSON.stringify(

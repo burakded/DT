@@ -13,6 +13,11 @@ interface Voice {
   name: string;
   voice_id: string;
 }
+
+interface ElevenLabsResponse {
+  voices: Voice[];
+}
+
 export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
   const {
     handleSubmit,
@@ -26,12 +31,16 @@ export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
 
   const { fetchInstance } = useFetch();
   const [elevenLabsVoices, setElevenLabsVoices] = useState<Voice[]>([]);
-  useEffect(()  => {
+  useEffect(() => {
     const fetchVoices = async () => {
-      await elevenLabsVoicesList();
+      try {
+        await elevenLabsVoicesList();
+      } catch (error) {
+        console.error("Error fetching Eleven Labs voices:", error);
+      }
     };
   
-    fetchVoices();
+    void fetchVoices();
   }, []);
 
   const elevenLabsVoicesList = async (
@@ -42,11 +51,11 @@ export const ConfigModal = ({ chatId }: { chatId?: string }): JSX.Element => {
     console.log("Calling API...");
     try {
       const response = await fetchInstance.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/elevenlabs/voices`, headers);
-      const data = await response.json();
-      setElevenLabsVoices(data.voices)
+      const data = (await response.json()) as ElevenLabsResponse;
+      setElevenLabsVoices(data.voices);
     } catch (error) {
-      console.log(error)
-      }
+      console.error("Failed to fetch voices:", error);
+    }
     }
 
   if (chatId === undefined) {

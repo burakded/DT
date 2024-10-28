@@ -23,6 +23,7 @@ from routes.upload_routes import upload_router
 from routes.user_routes import user_router
 from routes.elevenlabs_routes import elevenlabs_router
 from supabase import create_client, Client
+from fastapi.middleware.cors import CORSMiddleware
 
 logger = get_logger(__name__)
 
@@ -34,6 +35,20 @@ if sentry_dsn:
     )
 
 app = FastAPI()
+
+
+origins = [
+    os.getenv("FRONTEND_URL")
+]
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  # Allow the specified origins
+    allow_credentials=True,   # Allow credentials (like cookies) to be sent
+    allow_methods=["*"],      # Allow all HTTP methods
+    allow_headers=["*"],      # Allow all headers
+)
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")

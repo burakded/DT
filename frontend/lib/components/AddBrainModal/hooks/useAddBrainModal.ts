@@ -1,5 +1,5 @@
 /* eslint-disable max-lines */
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -131,7 +131,7 @@ export const useAddBrainModal = () => {
         text: t("brainCreated",{ns:"brain"})
       });
     } catch (err) {
-      if (axios.isAxiosError(err) && err.response?.status === 429) {
+      if (isAxiosError(err) && err.response?.status === 429) {
         publish({
           variant: "danger",
           text: `${JSON.stringify(

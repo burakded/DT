@@ -22,6 +22,10 @@ interface Voice {
   name: string;
   voice_id: string;
 }
+
+interface VoicesResponse {
+  voices: Voice[];
+}
 export const AddBrainModal = (): JSX.Element => {
   const { t } = useTranslation(["translation", "brain", "config"]);
   const {
@@ -41,12 +45,16 @@ export const AddBrainModal = (): JSX.Element => {
 
   const { fetchInstance } = useFetch();
   const [elevenLabsVoices, setElevenLabsVoices] = useState<Voice[]>([]);
-  useEffect(()  => {
+  useEffect(() => {
     const fetchVoices = async () => {
-      await elevenLabsVoicesList();
+      try {
+        await elevenLabsVoicesList(); 
+      } catch (error) {
+        console.error("Failed to fetch voices:", error);
+      }
     };
-  
-    fetchVoices();
+
+    void fetchVoices();
   }, []);
 
   const elevenLabsVoicesList = async (
@@ -57,10 +65,10 @@ export const AddBrainModal = (): JSX.Element => {
     console.log("Calling API...");
     try {
       const response = await fetchInstance.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/elevenlabs/voices`, headers);
-      const data = await response.json();
+      const data = (await response.json()) as { voices: Voice[] };
       setElevenLabsVoices(data.voices)
-      register("voices", { value: data.voices[0].voice_id || "" });
-      register("voicesName", {value: data.voices[0].voicesName || " "})
+      register("voices", { value: data.voices[0]?.voice_id || "" });
+      register("voicesName", {value: data.voices[0]?.name || " "})
     } catch (error) {
       console.log(error)
       }
