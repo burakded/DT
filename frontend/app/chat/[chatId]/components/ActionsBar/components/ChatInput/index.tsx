@@ -9,8 +9,12 @@ import { useContext } from "react";
 import { ChatContext } from "@/lib/context/ChatProvider";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
+import { useBrainContext } from "@/lib/context/BrainProvider/hooks/useBrainContext";
+
 
 export const ChatInput = (): JSX.Element => {
+  const { currentBrainId } =
+    useBrainContext();
   const { setMessage, submitQuestion, chatId, generatingAnswer, message } = useChatInput();
   const { t } = useTranslation(["chat"]);
   const chatContext = useContext(ChatContext);
@@ -22,6 +26,7 @@ export const ChatInput = (): JSX.Element => {
 
       if (lastMessageText) {
         try {
+          console.log(currentBrainId)
           const responseSpeech = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/elevenlabs/text-to-speech`,
             {
@@ -29,7 +34,7 @@ export const ChatInput = (): JSX.Element => {
               headers: {
                 "Content-Type": "application/json",
               },
-              body: JSON.stringify({ text: lastMessageText, brainName: history[history.length - 1].brain_name }),
+              body: JSON.stringify({ text: lastMessageText, brainId: currentBrainId }),
               cache: "no-cache",
             }
           );
