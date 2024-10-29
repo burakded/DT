@@ -26,7 +26,6 @@ export const ChatInput = (): JSX.Element => {
 
       if (lastMessageText) {
         try {
-          console.log(currentBrainId)
           const responseSpeech = await fetch(
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/elevenlabs/text-to-speech`,
             {
