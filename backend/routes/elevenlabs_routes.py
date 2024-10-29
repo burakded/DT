@@ -26,7 +26,7 @@ elevenlabs_router = APIRouter()
 
 # Define request body models
 class TextToSpeechRequest(BaseModel):
-    brainName: str
+    brainId: str
     text: str
 
 @elevenlabs_router.post("/elevenlabs/text-to-speech", response_class=Response)
@@ -35,11 +35,7 @@ async def text_to_speech(request: TextToSpeechRequest):
         SUPABASE_URL = os.getenv("SUPABASE_URL")
         SUPABASE_SERVICE_KEY = os.getenv("SUPABASE_SERVICE_KEY")
         supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
-        response = supabase.table("brains").select("brain_id").eq("name", request.brainName).execute()
-        brain_id=""
-        if response.data and len(response.data) > 0:
-            brain_id = response.data[0]['brain_id']
-        response = supabase.table("elevenlabs").select("voice_id").eq("brain_id", brain_id).execute()
+        response = supabase.table("elevenlabs").select("voice_id").eq("brain_id", request.brainId).execute()
         voiceId=""
         if response.data and len(response.data) > 0:
             voiceId = response.data[0]['voice_id']
