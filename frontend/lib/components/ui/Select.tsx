@@ -102,7 +102,7 @@ export const Select = <T extends string | number>({
           <ul role="listbox">
             {options.map((option) => (
               <li
-                className="text-gray-900 relative cursor-pointer select-none py-2"
+                className="text-gray-900 relative cursor-pointer py-2"
                 id="listbox-option-0"
                 key={option.value}
                 onClick={() => onChange(option.value)}

@@ -32,7 +32,7 @@ const Tooltip = ({ children, tooltip }: TooltipProps): JSX.Element => {
                     transition: { ease: "easeIn", duration: 0.1 },
                   }}
                   //   transition={{ duration: 0.2, ease: "circInOut" }}
-                  className="select-none rounded-md border border-black/10 dark:border-white/25 bg-white dark:bg-gray-800 px-5 py-3 text-sm leading-none shadow-lg dark:shadow-primary/25"
+                  className="rounded-md border border-black/10 dark:border-white/25 bg-white dark:bg-gray-800 px-5 py-3 text-sm leading-none shadow-lg dark:shadow-primary/25"
                 >
                   {tooltip}
                   <TooltipPrimitive.Arrow className="fill-white dark:fill-black" />

@@ -61,7 +61,7 @@ export const ChatsListItem = ({ chat }: ChatsListItemProps): JSX.Element => {
       {/* Fade to white */}
       <div
         aria-hidden
-        className="not-sr-only absolute left-1/2 top-0 bottom-0 right-0 bg-gradient-to-r from-transparent to-white dark:to-black pointer-events-none"
+        className="not-sr-only absolute left-1/2 top-0 bottom-0 right-0 bg-gradient-to-r from-transparent to-white dark:to-black"
       ></div>
     </div>
   );

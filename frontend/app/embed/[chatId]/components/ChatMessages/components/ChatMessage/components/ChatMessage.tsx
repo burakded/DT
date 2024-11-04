@@ -1,6 +1,6 @@
 import { useFeature } from "@growthbook/growthbook-react";
 import React from "react";
-
+import ReactMarkdown from "react-markdown";
 import { UIpropertyProps } from "@/app/chat/[chatId]/types";
 import { cn } from "@/lib/utils";
 
@@ -51,16 +51,37 @@ export const ChatMessage = React.forwardRef(
               @{brainName ?? "-"} #{promptName ?? "-"}
             </span>
           )}
-          <div data-testid="chat-message-text">
+          {
+            isUserSpeaker?
+          <div data-testid="chat-message-text" style={{ userSelect: 'text',pointerEvents:'auto' }}>
             {/* <ReactMarkdown className={markdownClasses}>{text}</ReactMarkdown> */}
             <p
               style={{
                 fontSize: isUserSpeaker ? UI.UserFontSize : UI.AIFontSize,
+                userSelect: 'text',
+                pointerEvents:'auto'
               }}
             >
+              
               {text}
             </p>
           </div>
+          :
+          <div data-testid="chat-message-text" style={{ userSelect: 'text',pointerEvents:'auto' }}>
+            {/* <ReactMarkdown className={markdownClasses}>{text}</ReactMarkdown> */}
+            <p
+              style={{
+                fontSize: isUserSpeaker ? UI.UserFontSize : UI.AIFontSize,
+                userSelect: 'text',
+                pointerEvents:'auto'
+              }}
+            >
+              
+              <ReactMarkdown >{text}</ReactMarkdown>
+            </p>
+          </div>
+
+            }
         </div>
       </div>
     );

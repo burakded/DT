@@ -6,6 +6,14 @@ main {
   @apply max-w-screen-xl mx-auto flex flex-col;
 }
 
+* {
+  user-select: text !important;
+}
+
+p{
+  user-select: text !important;
+  pointer-events: auto !important;
+}
 header,
 section {
   @apply px-5 md:px-10;
